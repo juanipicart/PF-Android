@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PF - Android App</string>
+    <string name="codigo">Código</string>
+    <string name="descripcion">Descripción</string>
+    <string name="fenomeno">Fenómeno</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="localidad">Localidad</string>
+    <string name="longitud">Longitud</string>
+    <string name="latitud">Latitud</string>
+    <string name="altitud">Altitud</string>
+    <string name="fecha">Fecha</string>
+</resources>

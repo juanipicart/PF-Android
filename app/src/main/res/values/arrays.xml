@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="comboFenom">
+        <item>Tornado</item>
+        <item>Vientos</item>
+    </string-array>
+    <string-array name="comboLocalidad">
+        <item>Montevideo</item>
+        <item>Canelones</item>
+        <item>Rocha</item>
+    </string-array>
+</resources>
