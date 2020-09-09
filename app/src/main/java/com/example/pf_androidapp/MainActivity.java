@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtCodigo = (EditText)findViewById(R.id.txtCodigo);
+       /* txtCodigo = (EditText)findViewById(R.id.txtCodigo);
         btnAceptar = (Button)findViewById(R.id.btnAceptar);
         txtDescripcion = (EditText)findViewById(R.id.txtdescripcion);
         ComboFenomeno = (Spinner) findViewById(R.id.comboFenomenos);
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+*/
 
 
 

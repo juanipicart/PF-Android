@@ -25,7 +25,7 @@ public class DetalleObservacion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_observacion);
 
-        setContentView(R.layout.activity_detalle_observacion);
+       /* setContentView(R.layout.activity_detalle_observacion);
 
         txtComboFen = (EditText) ComboFenomeno.getText();
         txtCodigo = (EditText)findViewById(R.id.txtCodigo);
@@ -52,7 +52,7 @@ public class DetalleObservacion extends AppCompatActivity {
         for (int i=0; i<spinner.getCount();i++) {
             if (spinner.getItemAtPosition(i).equals(value))
                 index = i;
-        }
+        }*/
     }
 
 }

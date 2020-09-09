@@ -9,4 +9,10 @@
     <string name="latitud">Latitud</string>
     <string name="altitud">Altitud</string>
     <string name="fecha">Fecha</string>
+    <string name="altaObs">Nueva Observación</string>
+    <string name="descripcionHint">Ingrese la descripción de la observación</string>
+    <string name="codigoHint">Ingrese un código</string>
+    <string name="longitudHint">Ingrese la longitud</string>
+    <string name="latitudHint">Ingrese la latitud</string>
+    <string name="altitudHint">Ingrese la altitud</string>
 </resources>
