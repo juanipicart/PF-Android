@@ -15,4 +15,5 @@
     <string name="longitudHint">Ingrese la longitud</string>
     <string name="latitudHint">Ingrese la latitud</string>
     <string name="altitudHint">Ingrese la altitud</string>
+    <string name="fechaObservacion">Ingrese la fecha de la observación</string>
 </resources>

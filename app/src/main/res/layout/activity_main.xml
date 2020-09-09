@@ -8,8 +8,8 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#FFFFFF"></ScrollView>
 
     <TextView
@@ -132,23 +132,29 @@
         android:hint="@string/altitudHint"
         android:inputType="number" />
 
-    <!--<TextView android:id="@+id/lblfecha"
+    <EditText
+        android:id="@+id/fechaCreacion"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fecha" />
-    <DatePicker android:id="@+id/fecha"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:datePickerMode="calendar" />-->
+        android:layout_height="45dp"
+        android:clickable="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="7dp"
+        android:inputType="date"
+        android:focusable="false"
+        android:layout_below="@id/txtaltitud"
+        android:hint="@string/fechaObservacion"/>
     <Button
         android:id="@+id/btnAceptar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtaltitud"
+        android:layout_below="@id/fechaCreacion"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="7dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="7dp"
         android:background="@color/colorPrimary"
         android:text="@string/aceptar" />
+
 </RelativeLayout>
