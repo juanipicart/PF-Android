@@ -16,4 +16,12 @@
     <string name="latitudHint">Ingrese la latitud</string>
     <string name="altitudHint">Ingrese la altitud</string>
     <string name="fechaObservacion">Ingrese la fecha de la observación</string>
+    <string name="departamento">Departamento</string>
+    <string name="zona">Zona</string>
+    <string name="invalidCodigo">Por favor, ingrese un código</string>
+    <string name="invalidDesc">Ingrese una descripción</string>
+    <string name="invalidLat">Ingrese la latitud</string>
+    <string name="invalidLong">Ingrese la longitud</string>
+    <string name="invalidAlt">Ingrese la altitud</string>
+    <string name="invalidFenom">Seleccione un fenómeno</string>
 </resources>

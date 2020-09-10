@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="comboFenom">
+        <item>Seleccione una opción</item>
         <item>Tornado</item>
         <item>Vientos</item>
     </string-array>
     <string-array name="comboLocalidad">
+        <item>Seleccione una opción</item>
         <item>Montevideo</item>
         <item>Canelones</item>
         <item>Rocha</item>
+    </string-array>
+    <string-array name="comboDeptos">
+        <item>Seleccione una opción</item>
+        <item>Artigas</item>
+        <item>Salto</item>
+        <item>Soriano</item>
+        <item>Montevideo</item>
+        <item>Rio Negro</item>
+        <item>Rocha</item>
+    </string-array>
+    <string-array name="comboZonas">
+        <item>Seleccione una opción</item>
+        <item>Norte</item>
+        <item>Sur</item>
+        <item>Este</item>
+        <item>Oeste</item>
     </string-array>
 </resources>

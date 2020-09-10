@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lytContenedor"
     android:layout_width="match_parent"
@@ -7,10 +7,13 @@
     android:background="#E6DADA"
     android:orientation="vertical">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"></ScrollView>
+        android:layout_height="match_parent">
+    <View android:id="@+id/strut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/labelActivity"
@@ -48,65 +51,130 @@
 
     <TextView
         android:id="@+id/lblFenomeno"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="45dp"
+        android:layout_alignRight="@id/strut"
+        android:layout_alignParentLeft="true"
         android:layout_below="@id/txtdescripcion"
         android:layout_marginLeft="15sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="7dp"
         android:gravity="center_vertical"
         android:text="@string/fenomeno"
         android:textSize="18sp" />
 
     <Spinner
         android:id="@+id/comboFenomenos"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="45dp"
+        android:layout_alignLeft="@id/strut"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/txtdescripcion"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="11dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="15dp"
         android:layout_marginBottom="7dp"
+        android:spinnerMode="dialog"
         android:layout_toRightOf="@id/lblFenomeno"
         android:entries="@array/comboFenom"
-        android:gravity="center_horizontal"
-        android:textAlignment="center" />
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/lblDepartamento"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_alignRight="@id/strut"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lblFenomeno"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="11dp"
+        android:gravity="center_vertical"
+        android:text="@string/departamento"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/comboDeptos"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@id/strut"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/comboFenomenos"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="7dp"
+        android:spinnerMode="dialog"
+        android:layout_toRightOf="@id/lblDepartamento"
+        android:entries="@array/comboDeptos"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/lblLocalidad"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_below="@id/comboFenomenos"
+        android:layout_alignRight="@id/strut"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lblDepartamento"
         android:layout_marginLeft="15sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="11dp"
         android:gravity="center_vertical"
         android:text="@string/localidad"
         android:textSize="18sp" />
 
     <Spinner
         android:id="@+id/comboLocalidad"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_below="@id/comboFenomenos"
-        android:layout_marginLeft="10dp"
+        android:layout_alignLeft="@id/strut"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/comboDeptos"
         android:layout_marginTop="11dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="15dp"
+        android:spinnerMode="dialog"
         android:layout_marginBottom="7dp"
         android:layout_toRightOf="@id/lblLocalidad"
         android:entries="@array/comboLocalidad"
-        android:gravity="center_horizontal"
-        android:textAlignment="center" />
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/lblZona"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_alignRight="@id/strut"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lblLocalidad"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="11dp"
+        android:gravity="center_vertical"
+        android:text="@string/zona"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/comboZona"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@id/strut"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/comboLocalidad"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="15dp"
+        android:spinnerMode="dialog"
+        android:layout_marginBottom="7dp"
+        android:layout_toRightOf="@id/lblZona"
+        android:entries="@array/comboZonas"
+        android:gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/txtlongitud"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/comboLocalidad"
+        android:layout_below="@id/comboZona"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="7dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="7dp"
         android:hint="@string/longitudHint"
-        android:inputType="number" />
+        android:inputType="numberDecimal|numberSigned" />
 
     <EditText
         android:id="@+id/txtlatitud"
@@ -118,7 +186,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="7dp"
         android:hint="@string/latitudHint"
-        android:inputType="number" />
+        android:inputType="numberDecimal|numberSigned" />
 
     <EditText
         android:id="@+id/txtaltitud"
@@ -130,7 +198,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="7dp"
         android:hint="@string/altitudHint"
-        android:inputType="number" />
+        android:inputType="numberDecimal|numberSigned" />
 
     <EditText
         android:id="@+id/fechaCreacion"
@@ -157,4 +225,6 @@
         android:background="@color/colorPrimary"
         android:text="@string/aceptar" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
