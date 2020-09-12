@@ -1,18 +1,24 @@
 package com.example.pf_androidapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,25 +26,55 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    public static final String codigo = "CODIGO";
+    public static final String descripcion = "DESCRIPCION";
+    public static final String fenomeno = "FENOMENO";
+    public static final String depto = "DEPARTAMENTO";
+    public static final String localidad = "LOCALIDAD";
+    public static final String zona = "ZONA";
+    public static final String longitud = "LONGITUD";
+    public static final String latitud = "LATITUD";
+    public static final String altitud = "ALTITUD";
+    public static final String fecha = "FECHA";
 
     private Button btnAceptar;
     private EditText txtCodigo;
     private EditText txtDescripcion;
-    private Spinner ComboFenomeno;
-    private Spinner ComboLocalidad;
+    private Spinner comboFenomeno;
+    private Spinner comboDeptos;
+    private Spinner comboLocalidad;
+    private Spinner comboZona;
     private EditText txtLongitud;
     private EditText txtLatitud;
     private EditText txtAltitud;
     private TextView fechaCreacion;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    String fenomenoValue;
+    String deptoValue;
+    String localidadValue;
+    String zonaValue;
+    String codigoValue;
+    String descripcionValue;
+    String latValue;
+    String longValue;
+    String altValue;
+    String fechaValue;
+
+    TextView selectedFenomeno;
+    TextView selectedDepartamento;
+    TextView selectedLocalidad;
+    TextView selectedZona;
+
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     AwesomeValidation awesomeValidation;
 
@@ -46,15 +82,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         fechaCreacion = (TextView) findViewById(R.id.fechaCreacion);
         txtCodigo = (EditText)findViewById(R.id.txtCodigo);
         btnAceptar = (Button)findViewById(R.id.btnAceptar);
         txtDescripcion = (EditText)findViewById(R.id.txtdescripcion);
-        ComboFenomeno = (Spinner) findViewById(R.id.comboFenomenos);
-        ComboLocalidad = (Spinner)findViewById(R.id.comboLocalidad);
+        comboFenomeno = (Spinner) findViewById(R.id.comboFenomenos);
+        comboDeptos = (Spinner) findViewById(R.id.comboDeptos);
+        comboLocalidad = (Spinner)findViewById(R.id.comboLocalidad);
+        comboZona = (Spinner) findViewById(R.id.comboZona);
         txtLatitud = (EditText)findViewById(R.id.txtlatitud);
         txtAltitud = (EditText)findViewById(R.id.txtaltitud);
         txtLongitud = (EditText)findViewById(R.id.txtlongitud);
+        fechaCreacion = (EditText) findViewById(R.id.fechaCreacion);
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nuevaObservacion);
+
+
+
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
@@ -69,43 +117,49 @@ public class MainActivity extends AppCompatActivity {
         awesomeValidation.addValidation(this, R.id.txtaltitud,
                 RegexTemplate.NOT_EMPTY, R.string.invalidAlt);
 
-        View selectedView = ComboFenomeno.getSelectedView();
-        if (selectedView != null && selectedView instanceof TextView) {
-            TextView selectedTextView = (TextView) selectedView;
-            if (selectedTextView.getText().toString().equals("Seleccione una opción")) {
-                String errorString = selectedTextView.getResources().getString(R.string.invalidFenom);
-                selectedTextView.setError(errorString);
-            }
-            else {
-                selectedTextView.setError(null);
-            }
-        }
-
 
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (awesomeValidation.validate()) {
-                    Toast.makeText(getApplicationContext(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
-                } else {
+                fenomenoValue = comboFenomeno.getSelectedItem().toString();
+                deptoValue = comboDeptos.getSelectedItem().toString();
+                localidadValue = comboLocalidad.getSelectedItem().toString();
+                zonaValue = comboZona.getSelectedItem().toString();
+                codigoValue = txtCodigo.getText().toString();
+                descripcionValue = txtDescripcion.getText().toString();
+                latValue = txtLatitud.getText().toString();
+                longValue = txtLongitud.getText().toString();
+                altValue = txtAltitud.getText().toString();
+                fechaValue = fechaCreacion.getText().toString();
+
+                selectedFenomeno = (TextView) comboFenomeno.getSelectedView();
+                selectedDepartamento = (TextView) comboDeptos.getSelectedView();
+                selectedLocalidad = (TextView) comboLocalidad.getSelectedView();
+                selectedZona = (TextView) comboZona.getSelectedView();
+
+                if (!awesomeValidation.validate() || validarSpinner() == false) {
                     Toast.makeText(getApplicationContext(), "Datos inválidos", Toast.LENGTH_LONG).show();
-                }
-                /*
+                } else {
+                    Toast.makeText(getApplicationContext(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(MainActivity.this, DetalleObservacion.class);
 
-                Bundle b = new Bundle();
-                b.putString("CODIGO", txtCodigo.getText().toString());
-                b.putString("DESCRIPCION", txtDescripcion.getText().toString());
-                b.putString("FENOMENO", ComboFenomeno.getSelectedItem().toString());
-                b.putString("LOCALIDAD", ComboLocalidad.getSelectedItem().toString());
-                b.putString("ALTITUD", txtAltitud.getText().toString());
-                b.putString("LATITUD", txtLatitud.getText().toString());
-                b.putString("LONGITUD", txtLongitud.getText().toString());
+                intent.putExtra(codigo, codigoValue);
+                intent.putExtra(descripcion, descripcionValue);
+                intent.putExtra(fenomeno, fenomenoValue);
+                intent.putExtra(depto, deptoValue);
+                intent.putExtra(localidad, localidadValue);
+                intent.putExtra(zona, zonaValue);
+                intent.putExtra(latitud, latValue);
+                intent.putExtra(longitud, longValue);
+                intent.putExtra(altitud, altValue);
+                intent.putExtra(fecha, fechaValue);
 
-                intent.putExtras(b);
+                if (validarSpinner()) {
+                startActivity(intent); }
 
-                startActivity(intent);*/
+                }
             }
         });
 
@@ -139,10 +193,59 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+
+        getMenuInflater().inflate(R.menu.menu_principal, menu);
+
+        return super.onCreateOptionsMenu(menu);
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuitem){
+        int id = menuitem.getItemId();
+
+        if(id == R.id.botonSalir) {
+            finishAffinity();
+        }
+
+        return super.onOptionsItemSelected(menuitem);
+    }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        return false;
+    }
+
+    private boolean validarSpinner() {
+
+        boolean exito = true;
+        if (fenomenoValue.equals("Seleccione una opción")) {
+            String errorString = selectedFenomeno.getResources().getString(R.string.invalidFenom);
+            selectedFenomeno.setError(errorString);
+            exito = false;
+        }
+        if (deptoValue.equals("Seleccione una opción")) {
+            String errorString = selectedDepartamento.getResources().getString(R.string.invalidDepto);
+            selectedDepartamento.setError(errorString);
+            exito = false;
+        }
+        if (localidadValue.equals("Seleccione una opción")) {
+            String errorString = selectedLocalidad.getResources().getString(R.string.invalidLocalidad);
+            selectedLocalidad.setError(errorString);
+            exito = false;
+        }
+        if (zonaValue.equals("Seleccione una opción")) {
+            String errorString = selectedZona.getResources().getString(R.string.invalidZona);
+            selectedZona.setError(errorString);
+            exito = false;
+        }
+        return exito;
+    }
 
 }

@@ -10,6 +10,7 @@
     <string name="altitud">Altitud</string>
     <string name="fecha">Fecha</string>
     <string name="altaObs">Nueva Observación</string>
+    <string name="detalleObs">Detalle de Observación</string>
     <string name="descripcionHint">Ingrese la descripción de la observación</string>
     <string name="codigoHint">Ingrese un código</string>
     <string name="longitudHint">Ingrese la longitud</string>
@@ -24,4 +25,19 @@
     <string name="invalidLong">Ingrese la longitud</string>
     <string name="invalidAlt">Ingrese la altitud</string>
     <string name="invalidFenom">Seleccione un fenómeno</string>
+    <string name="lblCodigo">Código:</string>
+    <string name="lblDescripcion">Descripción:</string>
+    <string name="lblFenomeno">Fenómeno:</string>
+    <string name="lblDepto">Departamento:</string>
+    <string name="lblLocalidad">Localidad:</string>
+    <string name="lblZona">Zona:</string>
+    <string name="lblLongitud">Longitud:</string>
+    <string name="lblLatitud">Latitud:</string>
+    <string name="lblAltitud">Altitud</string>
+    <string name="lblFecha">Fecha:</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="invalidDepto">Seleccione un departamento</string>
+    <string name="invalidLocalidad">Seleccione una localidad</string>
+    <string name="invalidZona">Seleccione una zona</string>
 </resources>
