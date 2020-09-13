@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/drawer_toolbar" />
+
+                <View
+                    android:id="@+id/strut"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:id="@+id/labelActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70sp"
+                    android:text="@string/altaObs"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/txtCodigo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/labelActivity"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:hint="@string/codigoHint"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/txtdescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtCodigo"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:hint="@string/descripcionHint"
+                    android:inputType="textMultiLine" />
+
+                <TextView
+                    android:id="@+id/lblFenomeno"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/txtdescripcion"
+                    android:layout_alignRight="@id/strut"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/fenomeno"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/comboFenomenos"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/txtdescripcion"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_toRightOf="@id/lblFenomeno"
+                    android:entries="@array/comboFenom"
+                    android:gravity="center_horizontal"
+                    android:spinnerMode="dialog" />
+
+                <TextView
+                    android:id="@+id/lblDepartamento"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/lblFenomeno"
+                    android:layout_alignRight="@id/strut"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/departamento"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/comboDeptos"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/comboFenomenos"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_toRightOf="@id/lblDepartamento"
+                    android:entries="@array/comboDeptos"
+                    android:gravity="center_horizontal"
+                    android:spinnerMode="dialog" />
+
+                <TextView
+                    android:id="@+id/lblLocalidad"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/lblDepartamento"
+                    android:layout_alignRight="@id/strut"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/localidad"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/comboLocalidad"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/comboDeptos"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_toRightOf="@id/lblLocalidad"
+                    android:entries="@array/comboLocalidad"
+                    android:gravity="center_horizontal"
+                    android:spinnerMode="dialog" />
+
+                <TextView
+                    android:id="@+id/lblZona"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/lblLocalidad"
+                    android:layout_alignRight="@id/strut"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="11dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/zona"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/comboZona"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/comboLocalidad"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_toRightOf="@id/lblZona"
+                    android:entries="@array/comboZonas"
+                    android:gravity="center_horizontal"
+                    android:spinnerMode="dialog" />
+
+                <EditText
+                    android:id="@+id/txtlongitud"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/comboZona"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:hint="@string/longitudHint"
+                    android:inputType="numberDecimal|numberSigned" />
+
+                <EditText
+                    android:id="@+id/txtlatitud"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtlongitud"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:hint="@string/latitudHint"
+                    android:inputType="numberDecimal|numberSigned" />
+
+                <EditText
+                    android:id="@+id/txtaltitud"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtlatitud"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:hint="@string/altitudHint"
+                    android:inputType="numberDecimal|numberSigned" />
+
+                <EditText
+                    android:id="@+id/fechaCreacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/txtaltitud"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="@string/fechaObservacion"
+                    android:inputType="date" />
+
+                <Button
+                    android:id="@+id/btnAceptar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/fechaCreacion"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/aceptar" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

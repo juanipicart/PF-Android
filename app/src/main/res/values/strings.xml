@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">PF - Android App</string>
+    <string name="app_name">PF - Android</string>
+    <string name="Open">open</string>
+    <string name="Close">close</string>
     <string name="codigo">Código</string>
     <string name="descripcion">Descripción</string>
     <string name="fenomeno">Fenómeno</string>

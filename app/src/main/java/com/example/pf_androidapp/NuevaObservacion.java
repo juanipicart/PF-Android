@@ -1,28 +1,17 @@
 package com.example.pf_androidapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Menu;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,13 +20,21 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private AppBarConfiguration mAppBarConfiguration;
+public class NuevaObservacion extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     public static final String codigo = "CODIGO";
@@ -148,21 +145,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Toast.makeText(getApplicationContext(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(MainActivity.this, DetalleObservacion.class);
+                    Intent intent = new Intent(MainActivity.this, DetalleObservacion.class);
 
-                intent.putExtra(codigo, codigoValue);
-                intent.putExtra(descripcion, descripcionValue);
-                intent.putExtra(fenomeno, fenomenoValue);
-                intent.putExtra(depto, deptoValue);
-                intent.putExtra(localidad, localidadValue);
-                intent.putExtra(zona, zonaValue);
-                intent.putExtra(latitud, latValue);
-                intent.putExtra(longitud, longValue);
-                intent.putExtra(altitud, altValue);
-                intent.putExtra(fecha, fechaValue);
+                    intent.putExtra(codigo, codigoValue);
+                    intent.putExtra(descripcion, descripcionValue);
+                    intent.putExtra(fenomeno, fenomenoValue);
+                    intent.putExtra(depto, deptoValue);
+                    intent.putExtra(localidad, localidadValue);
+                    intent.putExtra(zona, zonaValue);
+                    intent.putExtra(latitud, latValue);
+                    intent.putExtra(longitud, longValue);
+                    intent.putExtra(altitud, altValue);
+                    intent.putExtra(fecha, fechaValue);
 
-                if (validarSpinner()) {
-                startActivity(intent); }
+                    if (validarSpinner()) {
+                        startActivity(intent); }
 
                 }
             }

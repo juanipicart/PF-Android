@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lytContenedor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/strut"
+            android:layout_width="100dp"
+            android:layout_height="11dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/labelActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="50dp"
+            android:text="@string/detalleObs"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lblCodigo"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/labelActivity"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblCodigo"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtCodigo"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/labelActivity"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblCodigo"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblDescripcion"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@id/txtCodigo"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblFenomeno"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblDescripcion"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:scrollbars="vertical"
+            android:gravity="center_vertical"
+            android:text="@string/lblFenomeno"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtFenomeno"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtDescripcion"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblDepartamento"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblFenomeno"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblDepto"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtDepartamento"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtFenomeno"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblLocalidad"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblDepartamento"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblLocalidad"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtLocalidad"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtDepartamento"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblZona"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblLocalidad"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblZona"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtZona"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtLocalidad"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblLongitud"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblZona"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblLongitud"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtLongitud"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtZona"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblLatitud"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblLongitud"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblLatitud"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtLatitud"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtLongitud"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblAltitud"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblLatitud"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblAltitud"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtAltitud"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtLatitud"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/lblFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lblAltitud"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="@string/lblFecha"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtFecha"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/txtAltitud"
+            android:layout_alignLeft="@id/strut"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="18dp"/>
+
+    </RelativeLayout>
+
+</ScrollView>

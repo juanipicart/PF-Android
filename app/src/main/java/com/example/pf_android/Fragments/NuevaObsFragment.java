@@ -1,43 +1,41 @@
-package com.example.pf_androidapp;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+package com.example.pf_android.Fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.pf_android.MainActivity;
+import com.example.pf_android.R;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private AppBarConfiguration mAppBarConfiguration;
+public class NuevaObsFragment extends Fragment {
 
     private static final String TAG = "MainActivity";
     public static final String codigo = "CODIGO";
@@ -80,46 +78,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView selectedLocalidad;
     TextView selectedZona;
 
-    NavigationView navigationView;
-    Toolbar toolbar;
-
+    AppCompatActivity app = new AppCompatActivity();
     AwesomeValidation awesomeValidation;
+    NuevaObsListener nuevaObsListener;
+    Bundle  bundle = new Bundle();
+
+    public interface NuevaObsListener {
+        void onBundleSent(Bundle bundle);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.nueva_observacion_fragment,container,false);
+        return view;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-
-        fechaCreacion = (TextView) findViewById(R.id.fechaCreacion);
-        txtCodigo = (EditText)findViewById(R.id.txtCodigo);
-        btnAceptar = (Button)findViewById(R.id.btnAceptar);
-        txtDescripcion = (EditText)findViewById(R.id.txtdescripcion);
-        comboFenomeno = (Spinner) findViewById(R.id.comboFenomenos);
-        comboDeptos = (Spinner) findViewById(R.id.comboDeptos);
-        comboLocalidad = (Spinner)findViewById(R.id.comboLocalidad);
-        comboZona = (Spinner) findViewById(R.id.comboZona);
-        txtLatitud = (EditText)findViewById(R.id.txtlatitud);
-        txtAltitud = (EditText)findViewById(R.id.txtaltitud);
-        txtLongitud = (EditText)findViewById(R.id.txtlongitud);
-        fechaCreacion = (EditText) findViewById(R.id.fechaCreacion);
-
-
-
-
-
+        fechaCreacion = (TextView) getView().findViewById(R.id.fechaCreacion);
+        txtCodigo = (EditText) getView().findViewById(R.id.txtCodigo);
+        btnAceptar = (Button) getView().findViewById(R.id.btnAceptar);
+        txtDescripcion = (EditText) getView().findViewById(R.id.txtdescripcion);
+        comboFenomeno = (Spinner) getView().findViewById(R.id.comboFenomenos);
+        comboDeptos = (Spinner) getView().findViewById(R.id.comboDeptos);
+        comboLocalidad = (Spinner) getView().findViewById(R.id.comboLocalidad);
+        comboZona = (Spinner) getView().findViewById(R.id.comboZona);
+        txtLatitud = (EditText) getView().findViewById(R.id.txtlatitud);
+        txtAltitud = (EditText) getView().findViewById(R.id.txtaltitud);
+        txtLongitud = (EditText) getView().findViewById(R.id.txtlongitud);
+        fechaCreacion = (EditText) getView().findViewById(R.id.fechaCreacion);
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
-        awesomeValidation.addValidation(this, R.id.txtCodigo,
+        awesomeValidation.addValidation(getActivity(), R.id.txtCodigo,
                 RegexTemplate.NOT_EMPTY, R.string.invalidCodigo);
-        awesomeValidation.addValidation(this, R.id.txtdescripcion,
+        awesomeValidation.addValidation(getActivity(), R.id.txtdescripcion,
                 RegexTemplate.NOT_EMPTY, R.string.invalidDesc);
-        awesomeValidation.addValidation(this, R.id.txtlatitud,
+        awesomeValidation.addValidation(getActivity(), R.id.txtlatitud,
                 RegexTemplate.NOT_EMPTY, R.string.invalidLat);
-        awesomeValidation.addValidation(this, R.id.txtlongitud,
+        awesomeValidation.addValidation(getActivity(), R.id.txtlongitud,
                 RegexTemplate.NOT_EMPTY, R.string.invalidLong);
-        awesomeValidation.addValidation(this, R.id.txtaltitud,
+        awesomeValidation.addValidation(getActivity(), R.id.txtaltitud,
                 RegexTemplate.NOT_EMPTY, R.string.invalidAlt);
 
 
@@ -144,29 +146,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 selectedZona = (TextView) comboZona.getSelectedView();
 
                 if (!awesomeValidation.validate() || validarSpinner() == false) {
-                    Toast.makeText(getApplicationContext(), "Datos inválidos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(MainActivity.this, DetalleObservacion.class);
 
-                intent.putExtra(codigo, codigoValue);
-                intent.putExtra(descripcion, descripcionValue);
-                intent.putExtra(fenomeno, fenomenoValue);
-                intent.putExtra(depto, deptoValue);
-                intent.putExtra(localidad, localidadValue);
-                intent.putExtra(zona, zonaValue);
-                intent.putExtra(latitud, latValue);
-                intent.putExtra(longitud, longValue);
-                intent.putExtra(altitud, altValue);
-                intent.putExtra(fecha, fechaValue);
+                    bundle.putString(codigo, codigoValue);
+                    bundle.putString(descripcion, descripcionValue);
+                    bundle.putString(fenomeno, fenomenoValue);
+                    bundle.putString(depto, deptoValue);
+                    bundle.putString(localidad, localidadValue);
+                    bundle.putString(zona, zonaValue);
+                    bundle.putString(latitud, latValue);
+                    bundle.putString(longitud, longValue);
+                    bundle.putString(altitud, altValue);
+                    bundle.putString(fecha, fechaValue);
 
-                if (validarSpinner()) {
-                startActivity(intent); }
+                    DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
+                    detalleObsFragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
+                    fragmentTransaction.addToBackStack(null).commit();
+
 
                 }
             }
         });
+
+
 
         fechaCreacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,10 +185,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
+                        getActivity(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
-                        year,month,day);
+                        year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -197,34 +205,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-
-
-        getMenuInflater().inflate(R.menu.menu_principal, menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuitem){
-        int id = menuitem.getItemId();
-
-        if(id == R.id.botonSalir) {
-            finishAffinity();
-        }
-
-        return super.onOptionsItemSelected(menuitem);
-    }
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        return false;
     }
 
     private boolean validarSpinner() {
@@ -252,5 +232,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return exito;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof NuevaObsListener) {
+            nuevaObsListener = (NuevaObsListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + "must implement NuevaObservacionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        nuevaObsListener = null;
+    }
+
 
 }
