@@ -16,6 +16,12 @@
 
             </item>
 
+            <item android:id="@+id/consultarObs"
+                android:icon="@drawable/consulta"
+                android:title="Consultar Observaciones">
+
+            </item>
+
             <item android:id="@+id/salir"
                 android:icon="@drawable/close"
                 android:title="Salir">

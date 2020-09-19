@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="8dp">
+    <TextView
+        android:id="@+id/txtObsFenom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:text="Fenomeno"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+    <TextView
+        android:id="@+id/txtFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtObsFenom"
+        android:layout_below="@+id/txtObsFenom"
+        android:text="20/05/2020 06:00"/>
+    <TextView
+        android:id="@+id/txtDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="1dp"
+        android:text="Montevideo"
+        android:layout_toRightOf="@+id/txtObsFenom"/>
+    <TextView
+        android:id="@+id/txtLocalidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="Montevideo"
+        android:layout_toRightOf="@+id/txtDepartamento"/>
+
+</RelativeLayout>

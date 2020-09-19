@@ -42,4 +42,6 @@
     <string name="invalidDepto">Seleccione un departamento</string>
     <string name="invalidLocalidad">Seleccione una localidad</string>
     <string name="invalidZona">Seleccione una zona</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -16,9 +16,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pf_android.Fragments.DetalleObsFragment;
+import com.example.pf_android.Fragments.ListarObservaciones;
 import com.example.pf_android.Fragments.MainFragment;
 import com.example.pf_android.Fragments.NuevaObsFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NuevaObsFragment.NuevaObsListener {
 
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DetalleObsFragment detalleObsFragment;
     private NuevaObsFragment nuevaObsFragment;
+    private ListarObservaciones listObsFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         nuevaObsFragment = new NuevaObsFragment();
         detalleObsFragment = new DetalleObsFragment();
+        listObsFragment = new ListarObservaciones();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -63,10 +68,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
         if (item.getItemId() == R.id.nuevaObs) {
+            closeAllFragments();
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_fragment, new NuevaObsFragment());
             fragmentTransaction.commit();
+        }
+
+        if (item.getItemId() == R.id.consultarObs) {
+            closeAllFragments();
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+            ListarObservaciones listarObservaciones = (ListarObservaciones) getSupportFragmentManager().findFragmentById(R.id.container_observacionesFragment);
+
+            if (listarObservaciones == null) {
+                listarObservaciones = ListarObservaciones.newInstance();
+                getSupportFragmentManager().beginTransaction().add(R.id.container_fragment, listarObservaciones).commit();
+            }
         }
 
         if (item.getItemId() == R.id.salir) {
@@ -82,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-     @Override
+     /*@Override
      public void onBackPressed() {
 
          Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
@@ -90,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              Log.i("BACK PRESSED", "BACK PRESSED");
          }else{
              super.onBackPressed();
+         }
+     }*/
+     public void closeAllFragments() {
+         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
          }
      }
 }
