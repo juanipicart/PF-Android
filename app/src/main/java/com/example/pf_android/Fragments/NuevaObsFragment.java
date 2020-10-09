@@ -1,15 +1,15 @@
 package com.example.pf_android.Fragments;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,9 +29,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.example.pf_android.MainActivity;
+import com.example.pf_android.Entities.Observacion;
 import com.example.pf_android.R;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 
@@ -98,6 +97,8 @@ public class NuevaObsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+
         fechaCreacion = (TextView) getView().findViewById(R.id.fechaCreacion);
         txtCodigo = (EditText) getView().findViewById(R.id.txtCodigo);
         btnAceptar = (Button) getView().findViewById(R.id.btnAceptar);
@@ -150,6 +151,36 @@ public class NuevaObsFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
 
+                    ContentValues values = new ContentValues();
+                    values.put(ObservacionesProvider.CODIGO, codigoValue);
+                    values.put(ObservacionesProvider.DESCRIPCION, descripcionValue);
+                    values.put(ObservacionesProvider.FENOMENO, fenomenoValue);
+                    values.put(ObservacionesProvider.DEPARTAMENTO, deptoValue);
+                    values.put(ObservacionesProvider.LOCALIDAD, localidadValue);
+                    values.put(ObservacionesProvider.ZONA, zonaValue);
+                    values.put(ObservacionesProvider.LONGITUD, longValue);
+                    values.put(ObservacionesProvider.LATITUD, latValue);
+                    values.put(ObservacionesProvider.ALTITUD, altValue);
+                    values.put(ObservacionesProvider.DATE, fechaValue);
+                    Uri uri = getActivity().getContentResolver().insert(ObservacionesProvider.CONTENT_URI, values);
+
+                    Cursor cursor = getActivity().getContentResolver().query(ObservacionesProvider.CONTENT_URI, null, null, null, null);
+                    Log.i("MSG", "Estas son las observaciones en la base de datos local");
+                    while (cursor.moveToNext()) {
+                        String codigo = cursor.getString(1);
+                        String descripcion = cursor.getString(2);
+                        String fenomeno = cursor.getString(3);
+                        String departamento = cursor.getString(4);
+                        String localidad = cursor.getString(5);
+                        String zona = cursor.getString(6);
+                        String longitud = cursor.getString(7);
+                        String latitud = cursor.getString(8);
+                        String altitud = cursor.getString(9);
+                        String date = cursor.getString(10);
+                        String StringToLog = "Código: " + codigo + ", Descripción: " + descripcion + ", Fenomeno: " + fenomeno + ", Departamento: " + departamento + ", Localidad: " + localidad +
+                                ", Zona: " + zona + ", Longitud: " + longitud + ", Latitud: " + latitud + ", Altitud: " + altitud + ", Fecha " + date;
+                        Log.i("Observación", StringToLog);
+                    }
 
                     bundle.putString(codigo, codigoValue);
                     bundle.putString(descripcion, descripcionValue);
@@ -173,8 +204,6 @@ public class NuevaObsFragment extends Fragment {
                 }
             }
         });
-
-
 
         fechaCreacion.setOnClickListener(new View.OnClickListener() {
             @Override

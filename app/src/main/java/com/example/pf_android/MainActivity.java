@@ -6,9 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -19,8 +24,11 @@ import com.example.pf_android.Fragments.DetalleObsFragment;
 import com.example.pf_android.Fragments.ListarObservaciones;
 import com.example.pf_android.Fragments.MainFragment;
 import com.example.pf_android.Fragments.NuevaObsFragment;
+import com.example.pf_android.Fragments.ObservacionesProvider;
+import com.example.pf_android.Fragments.ObservacionesService;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NuevaObsFragment.NuevaObsListener {
@@ -61,6 +69,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_fragment, new MainFragment());
         fragmentTransaction.commit();
+
+        Calendar cal = Calendar.getInstance();
+        Intent i = new Intent(this, ObservacionesService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, i, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 60000, pintent);
+
+
 
     }
 
