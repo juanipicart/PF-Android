@@ -11,16 +11,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
         <service
             android:name=".Fragments.ObservacionesService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
         <receiver
-            android:name="com.example.pf_android.Fragments.ObservacionesService$AlarmReceiver"
+            android:name=".Fragments.ObservacionesService$AlarmReceiver"
             android:exported="false"
-            tools:ignore="Instantiatable">
-        </receiver>
+            tools:ignore="Instantiatable"></receiver>
 
         <provider
             android:name=".Fragments.ObservacionesProvider"

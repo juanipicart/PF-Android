@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,13 +30,23 @@ import androidx.fragment.app.FragmentTransaction;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.example.pf_android.Entities.Observacion;
+import com.example.pf_android.Apis.FenomenosApi;
+import com.example.pf_android.Models.Fenomeno;
 import com.example.pf_android.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NuevaObsFragment extends Fragment {
 
+    Retrofit retrofit;
     private static final String TAG = "MainActivity";
     public static final String codigo = "CODIGO";
     public static final String descripcion = "DESCRIPCION";
@@ -82,6 +93,9 @@ public class NuevaObsFragment extends Fragment {
     NuevaObsListener nuevaObsListener;
     Bundle  bundle = new Bundle();
 
+    ArrayList<Fenomeno> listaFenomenos = new ArrayList<>();
+    ArrayAdapter fenomenoAdapter;
+
     public interface NuevaObsListener {
         void onBundleSent(Bundle bundle);
     }
@@ -91,6 +105,17 @@ public class NuevaObsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.nueva_observacion_fragment,container,false);
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.45:8091/TareaPDT_JSF/faces/rest/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
     }
 
     @Override
@@ -112,6 +137,7 @@ public class NuevaObsFragment extends Fragment {
         txtLongitud = (EditText) getView().findViewById(R.id.txtlongitud);
         fechaCreacion = (EditText) getView().findViewById(R.id.fechaCreacion);
 
+        getFenomenos();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         awesomeValidation.addValidation(getActivity(), R.id.txtCodigo,
@@ -278,5 +304,33 @@ public class NuevaObsFragment extends Fragment {
         nuevaObsListener = null;
     }
 
+    private void getFenomenos() {
+        FenomenosApi service = retrofit.create(FenomenosApi.class);
+        Call<ArrayList<Fenomeno>> call = service.getFenomenos();
+
+        call.enqueue(new Callback<ArrayList<Fenomeno>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Fenomeno>> call, Response<ArrayList<Fenomeno>> response) {
+                if (response.isSuccessful()) {
+                   listaFenomenos = response.body();
+                   ArrayList<String> fenomenosNombre = new ArrayList<>();
+                   for (int i=0; i < listaFenomenos.size();i++) {
+                        fenomenosNombre.add(listaFenomenos.get(i).getNombreFen());
+                   }
+                   fenomenoAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item,
+                            fenomenosNombre );
+                   comboFenomeno.setAdapter(fenomenoAdapter);
+
+                } else {
+                    Log.e("FENOMENO:", response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Fenomeno>> call, Throwable t) {
+                    Log.w("MyTag", "requestFailed", t);
+            }
+        });
+    }
 
 }
