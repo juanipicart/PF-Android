@@ -30,13 +30,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.example.pf_android.Apis.FenomenosApi;
+import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.Models.Fenomeno;
 import com.example.pf_android.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,7 +111,7 @@ public class NuevaObsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.45:8091/TareaPDT_JSF/faces/rest/")
+                .baseUrl("http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -305,7 +304,7 @@ public class NuevaObsFragment extends Fragment {
     }
 
     private void getFenomenos() {
-        FenomenosApi service = retrofit.create(FenomenosApi.class);
+        APIService service = retrofit.create(APIService.class);
         Call<ArrayList<Fenomeno>> call = service.getFenomenos();
 
         call.enqueue(new Callback<ArrayList<Fenomeno>>() {

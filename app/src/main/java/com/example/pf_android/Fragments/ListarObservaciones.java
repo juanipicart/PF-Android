@@ -77,7 +77,7 @@ public class ListarObservaciones extends Fragment {
             URL url;
             HttpURLConnection urlConnection = null;
             try {
-                String urlServicio = "http://192.168.1.21:8090/TareaPDT_JSF/faces/rest/observaciones";
+                String urlServicio = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/observaciones";
                 url = new URL(urlServicio);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("content-type", "application/json");
