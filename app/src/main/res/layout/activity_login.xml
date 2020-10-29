@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:background="#00000000"
-                    android:hint="Username"
+                    android:hint="Usuario"
                     android:inputType="text"
                     android:letterSpacing="0.1"
                     android:textColor="#fff"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="#009A9A"
-                    android:text="Button" />
+                    android:text="INGRESAR" />
             </LinearLayout>
 
         </LinearLayout>
