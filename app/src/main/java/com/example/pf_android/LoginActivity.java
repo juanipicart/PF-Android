@@ -9,20 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pf_android.Apis.APIService;
-import com.example.pf_android.Models.Usuario;
+import com.example.pf_android.Models.Login;
 import com.example.pf_android.remote.ApiUtils;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,19 +51,23 @@ public class LoginActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(usuario) && !TextUtils.isEmpty(pass)) {
                     sendPost(usuario, pass);
                 }
+                else if(usuario.isEmpty() || pass.isEmpty())
+                {
+                    Toast.makeText(LoginActivity.this, "Las credenciales no pueden ser vacias", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     public void sendPost(final String username, String passname) {
-        Usuario u = new Usuario(username, passname);
-        mAPIService.savePost(u).enqueue(new Callback<Usuario>() {
+        Login u = new Login(username, passname);
+        mAPIService.savePost(u).enqueue(new Callback<Login>() {
             @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+            public void onResponse(Call<Login> call, Response<Login> response) {
 
                 if(response.isSuccessful()) {
                     Log.i("success", "post submitted to API." + response.body().toString());
-                    Toast.makeText(LoginActivity.this, "bIENVENIDO!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Bienvenido, " + usuario, Toast.LENGTH_LONG).show();
 
                     StartMenu(username);
                 }
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<Login> call, Throwable t) {
                 Log.e("fail", "Unable to submit post to API.");
                 Toast.makeText(LoginActivity.this, "Fallo", Toast.LENGTH_SHORT).show();
             }

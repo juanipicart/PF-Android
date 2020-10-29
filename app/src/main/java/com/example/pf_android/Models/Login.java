@@ -3,9 +3,9 @@ package com.example.pf_android.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Usuario {
+public class Login {
 
-    public Usuario(String usuario, String pass) {
+    public Login(String usuario, String pass) {
         this.usuario = usuario;
         this.pass = pass;
     }
