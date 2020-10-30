@@ -10,6 +10,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (listarObservaciones == null) {
                 listarObservaciones = ListarObservaciones.newInstance();
                 getSupportFragmentManager().beginTransaction().add(R.id.container_fragment, listarObservaciones).commit();
+                listarObservaciones.setArguments(bundle);
             }
         }
 
@@ -111,16 +113,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-     /*@Override
+     @Override
      public void onBackPressed() {
 
          Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
-         if (f instanceof NuevaObsFragment || f instanceof DetalleObsFragment) {//the fragment on which you want to handle your back press
+         if (f instanceof NuevaObsFragment || f instanceof DetalleObsFragment || f instanceof  MainFragment) {//the fragment on which you want to handle your back press
              Log.i("BACK PRESSED", "BACK PRESSED");
          }else{
              super.onBackPressed();
          }
-     }*/
+     }
      public void closeAllFragments() {
          for (Fragment fragment : getSupportFragmentManager().getFragments()) {
              getSupportFragmentManager().beginTransaction().remove(fragment).commit();

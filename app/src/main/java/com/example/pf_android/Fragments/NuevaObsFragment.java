@@ -146,7 +146,7 @@ public class NuevaObsFragment extends Fragment {
         txtLatitud = (EditText) getView().findViewById(R.id.txtlatitud);
         txtAltitud = (EditText) getView().findViewById(R.id.txtaltitud);
         txtLongitud = (EditText) getView().findViewById(R.id.txtlongitud);
-        fechaCreacion = (EditText) getView().findViewById(R.id.fechaCreacion);
+        //fechaCreacion = (EditText) getView().findViewById(R.id.fechaCreacion);
         usuario = getArguments().getString("usuario");
 
         mAPIService = ApiUtils.getAPIService();
@@ -172,9 +172,9 @@ public class NuevaObsFragment extends Fragment {
             public void onClick(View view) {
 
                 fenomenoValue = comboFenomeno.getSelectedItem().toString();
-                deptoValue = comboDeptos.getSelectedItem().toString();
+                //deptoValue = comboDeptos.getSelectedItem().toString();
                 localidadValue = comboLocalidad.getSelectedItem().toString();
-                zonaValue = comboZona.getSelectedItem().toString();
+                //zonaValue = comboZona.getSelectedItem().toString();
                 codigoValue = txtCodigo.getText().toString();
                 descripcionValue = txtDescripcion.getText().toString();
                 latValue = txtLatitud.getText().toString();
@@ -182,13 +182,13 @@ public class NuevaObsFragment extends Fragment {
                 altValue = txtAltitud.getText().toString();
                 fechaValue = fechaCreacion.getText().toString();
 
-                Observacion obs = new Observacion(Float.valueOf(altValue), codigoValue, descripcionValue, "ACTIVO", fechaValue, fenomenoValue, Float.valueOf(latValue), localidadValue,
+                Observacion obs = new Observacion(Float.valueOf(altValue), codigoValue, descripcionValue, "PENDIENTE", fechaValue, fenomenoValue, Float.valueOf(latValue), localidadValue,
                         Float.valueOf(longValue), usuario);
 
                 selectedFenomeno = (TextView) comboFenomeno.getSelectedView();
-                selectedDepartamento = (TextView) comboDeptos.getSelectedView();
+                //selectedDepartamento = (TextView) comboDeptos.getSelectedView();
                 selectedLocalidad = (TextView) comboLocalidad.getSelectedView();
-                selectedZona = (TextView) comboZona.getSelectedView();
+                //selectedZona = (TextView) comboZona.getSelectedView();
 
                 if (!awesomeValidation.validate() || validarSpinner() == false) {
                     Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
@@ -257,21 +257,21 @@ public class NuevaObsFragment extends Fragment {
             selectedFenomeno.setError(errorString);
             exito = false;
         }
-        if (deptoValue.equals("Seleccione una opción")) {
+       /*if (deptoValue.equals("Seleccione una opción")) {
             String errorString = selectedDepartamento.getResources().getString(R.string.invalidDepto);
             selectedDepartamento.setError(errorString);
             exito = false;
-        }
+        }*/
         if (localidadValue.equals("Seleccione una opción")) {
             String errorString = selectedLocalidad.getResources().getString(R.string.invalidLocalidad);
             selectedLocalidad.setError(errorString);
             exito = false;
         }
-        if (zonaValue.equals("Seleccione una opción")) {
+        /*if (zonaValue.equals("Seleccione una opción")) {
             String errorString = selectedZona.getResources().getString(R.string.invalidZona);
             selectedZona.setError(errorString);
             exito = false;
-        }
+        }*/
         return exito;
     }
 

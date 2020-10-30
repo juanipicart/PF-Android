@@ -32,12 +32,7 @@ public class ObservacionAdapter extends ArrayAdapter<Observacion> {
         TextView fecha = (TextView) convertView.findViewById(R.id.txtFecha);
         TextView localidad = (TextView) convertView.findViewById(R.id.txtLocalidad);
 
-//        Observacion observacion = getItem(position);
-//
-//        fenomeno.setText(observacion.getFenomeno() + " - ");
-//        fecha.setText(observacion.getDate());
-//        localidad.setText(observacion.getLocalidad());
-//        departamento.setText(observacion.getDepartmanto() + ", ");
+        Observacion observacion = getItem(position);
 
         fenomeno.setText(observacion.getFenomeno() + " - ");
         fecha.setText(observacion.getFecha());

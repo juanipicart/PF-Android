@@ -20,7 +20,6 @@ public interface APIService {
     Call<ArrayList<Fenomeno>> getFenomenos();
 
     @GET("observaciones/usuario/{username}")
-    @FormUrlEncoded
     Call<ArrayList<Observacion>> getObservaciones(@Path("username") String username);
 
     @POST("usuarios/login")
