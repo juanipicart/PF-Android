@@ -34,9 +34,9 @@ public class ObservacionAdapter extends ArrayAdapter<Observacion> {
 
         Observacion observacion = getItem(position);
 
-        fenomeno.setText(observacion.getFenomeno() + " - ");
-        fecha.setText(observacion.getFecha());
-        localidad.setText(observacion.getLocalidad());
+//        fenomeno.setText(observacion.getFenomeno() + " - ");
+//        fecha.setText(observacion.getFecha());
+//        localidad.setText(observacion.getLocalidad());
 
         return convertView;
     }

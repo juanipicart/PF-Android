@@ -50,9 +50,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NuevaObsFragment extends Fragment {
 
-    private static String API_BASE_URL = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/";
-    private static Retrofit retrofit;
-    private static Gson gson;
     private APIService mAPIService;
 
     private static final String TAG = "MainActivity";
@@ -121,11 +118,6 @@ public class NuevaObsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
     }
 
