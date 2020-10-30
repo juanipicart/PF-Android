@@ -31,7 +31,6 @@ public class ObservacionAdapter extends ArrayAdapter<Observacion> {
         TextView fenomeno = (TextView) convertView.findViewById(R.id.txtObsFenom);
         TextView fecha = (TextView) convertView.findViewById(R.id.txtFecha);
         TextView localidad = (TextView) convertView.findViewById(R.id.txtLocalidad);
-        TextView departamento = (TextView) convertView.findViewById(R.id.txtDepartamento);
 
 //        Observacion observacion = getItem(position);
 //
@@ -39,6 +38,10 @@ public class ObservacionAdapter extends ArrayAdapter<Observacion> {
 //        fecha.setText(observacion.getDate());
 //        localidad.setText(observacion.getLocalidad());
 //        departamento.setText(observacion.getDepartmanto() + ", ");
+
+        fenomeno.setText(observacion.getFenomeno() + " - ");
+        fecha.setText(observacion.getFecha());
+        localidad.setText(observacion.getLocalidad());
 
         return convertView;
     }

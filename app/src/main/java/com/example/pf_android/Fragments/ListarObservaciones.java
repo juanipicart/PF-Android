@@ -14,10 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+import java.math.BigDecimal;
 
+import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.Entities.ObservacionAdapter;
 import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
+import com.example.pf_android.remote.ApiUtils;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,10 +35,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import retrofit2.Retrofit;
+
 public class ListarObservaciones extends Fragment {
 
     ListView mObservacionesList;
     ArrayAdapter<Observacion> mObservacionAdapter;
+    private static String API_BASE_URL = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/";
+    private static Retrofit retrofit;
+    private static Gson gson;
+    private APIService mService;
+
 
     public ListarObservaciones() {
 
@@ -49,7 +61,7 @@ public class ListarObservaciones extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mService = ApiUtils.getAPIService();
     }
 
     @Override
@@ -90,14 +102,15 @@ public class ListarObservaciones extends Fragment {
                     String codigo = obj.getString("codigo_OBS");
                     String descripcion = obj.getString("descripcion");
                     String fenomeno = obj.getJSONObject("fenomeno").getString("nombreFen");
-                    String departamento = obj.getJSONObject("localidad").getJSONObject("departamento").getString("nombreDep");
                     String localidad = obj.getJSONObject("localidad").getString("nombreLoc");
-                    String zona = obj.getJSONObject("localidad").getJSONObject("departamento").getJSONObject("zona").getString("nombre_zona");
-                    String longitud = obj.getString("longitud");
-                    String latitud = obj.getString("latitud");
-                    String altitud = obj.getString("altitud");
+                    float longitud = BigDecimal.valueOf(obj.getDouble("longitud")).floatValue();
+                    float latitud = BigDecimal.valueOf(obj.getDouble("latitud")).floatValue();
+                    float altitud = BigDecimal.valueOf(obj.getDouble("altitud")).floatValue();
                     String fecha = obj.getString("fecha");
-                    //observaciones.add(new Observacion(codigo, descripcion, fenomeno, departamento, localidad, zona, longitud, latitud, altitud, formatFecha(fecha)));
+                    String estado = obj.getString("estado");
+                    int id = obj.getInt("id");
+                    String usuario = obj.getString("usuario");
+                    observaciones.add(new Observacion(altitud,codigo,descripcion,estado,fecha,fenomeno,id,latitud,localidad,longitud,usuario));
                 }
                 mObservacionAdapter = new ObservacionAdapter(getActivity(), observaciones);
             } catch (Exception ex) {
@@ -131,9 +144,9 @@ public class ListarObservaciones extends Fragment {
                     bundle.putString("DESCRIPCION", observacion.getDescripcion());
                     bundle.putString("FENOMENO", observacion.getCodigo());
                     bundle.putString("LOCALIDAD", observacion.getLocalidad());
-                    bundle.putFloat("LATITUD", observacion.getLatitud());
-                    bundle.putFloat("LONGITUD", observacion.getLongitud());
-                    bundle.putFloat("ALTITUD", observacion.getAltitud());
+                    bundle.putString("LATITUD", String.valueOf(observacion.getLatitud()));
+                    bundle.putString("LONGITUD", String.valueOf(observacion.getLongitud()));
+                    bundle.putString("ALTITUD", String.valueOf(observacion.getAltitud()));
                     bundle.putString("FECHA", observacion.getFecha());
 
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
