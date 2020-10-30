@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
 
 import org.w3c.dom.Text;
@@ -32,12 +33,12 @@ public class ObservacionAdapter extends ArrayAdapter<Observacion> {
         TextView localidad = (TextView) convertView.findViewById(R.id.txtLocalidad);
         TextView departamento = (TextView) convertView.findViewById(R.id.txtDepartamento);
 
-        Observacion observacion = getItem(position);
-
-        fenomeno.setText(observacion.getFenomeno() + " - ");
-        fecha.setText(observacion.getDate());
-        localidad.setText(observacion.getLocalidad());
-        departamento.setText(observacion.getDepartmanto() + ", ");
+//        Observacion observacion = getItem(position);
+//
+//        fenomeno.setText(observacion.getFenomeno() + " - ");
+//        fecha.setText(observacion.getDate());
+//        localidad.setText(observacion.getLocalidad());
+//        departamento.setText(observacion.getDepartmanto() + ", ");
 
         return convertView;
     }

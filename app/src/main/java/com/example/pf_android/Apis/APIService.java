@@ -1,7 +1,9 @@
 package com.example.pf_android.Apis;
 
 import com.example.pf_android.Models.Fenomeno;
+import com.example.pf_android.Models.Localidad;
 import com.example.pf_android.Models.Login;
+import com.example.pf_android.Models.Observacion;
 
 import java.util.ArrayList;
 
@@ -17,5 +19,11 @@ public interface APIService {
 
     @POST("usuarios/login")
     Call<Login> savePost(@Body Login login);
+
+    @POST("observaciones")
+    Call<Observacion> saveObservacion(@Body Observacion observacion);
+
+    @GET("ubicaciones/localidades")
+    Call<ArrayList<Localidad>> getLocalidades();
 
 }

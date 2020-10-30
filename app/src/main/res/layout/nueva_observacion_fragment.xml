@@ -84,40 +84,40 @@
                     android:gravity="center_horizontal"
                     android:spinnerMode="dialog" />
 
-                <TextView
-                    android:id="@+id/lblDepartamento"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/lblFenomeno"
-                    android:layout_alignRight="@id/strut"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginBottom="7dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/departamento"
-                    android:textSize="18sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/lblDepartamento"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_below="@id/lblFenomeno"-->
+<!--                    android:layout_alignRight="@id/strut"-->
+<!--                    android:layout_alignParentLeft="true"-->
+<!--                    android:layout_marginLeft="15dp"-->
+<!--                    android:layout_marginTop="11dp"-->
+<!--                    android:layout_marginBottom="7dp"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:text="@string/departamento"-->
+<!--                    android:textSize="18sp" />-->
 
-                <Spinner
-                    android:id="@+id/comboDeptos"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/comboFenomenos"
-                    android:layout_alignLeft="@id/strut"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="7dp"
-                    android:layout_toRightOf="@id/lblDepartamento"
-                    android:entries="@array/comboDeptos"
-                    android:gravity="center_horizontal"
-                    android:spinnerMode="dialog" />
+<!--                <Spinner-->
+<!--                    android:id="@+id/comboDeptos"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_below="@id/comboFenomenos"-->
+<!--                    android:layout_alignLeft="@id/strut"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_marginTop="11dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:layout_marginBottom="7dp"-->
+<!--                    android:layout_toRightOf="@id/lblDepartamento"-->
+<!--                    android:entries="@array/comboDeptos"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:spinnerMode="dialog" />-->
 
                 <TextView
                     android:id="@+id/lblLocalidad"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
-                    android:layout_below="@id/lblDepartamento"
+                    android:layout_below="@id/lblFenomeno"
                     android:layout_alignRight="@id/strut"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15sp"
@@ -131,50 +131,49 @@
                     android:id="@+id/comboLocalidad"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
-                    android:layout_below="@id/comboDeptos"
+                    android:layout_below="@id/comboFenomenos"
                     android:layout_alignLeft="@id/strut"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="11dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="7dp"
                     android:layout_toRightOf="@id/lblLocalidad"
-                    android:entries="@array/comboLocalidad"
                     android:gravity="center_horizontal"
                     android:spinnerMode="dialog" />
 
-                <TextView
-                    android:id="@+id/lblZona"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/lblLocalidad"
-                    android:layout_alignRight="@id/strut"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15sp"
-                    android:layout_marginTop="11dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/zona"
-                    android:textSize="18sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/lblZona"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_below="@id/lblLocalidad"-->
+<!--                    android:layout_alignRight="@id/strut"-->
+<!--                    android:layout_alignParentLeft="true"-->
+<!--                    android:layout_marginLeft="15sp"-->
+<!--                    android:layout_marginTop="11dp"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:text="@string/zona"-->
+<!--                    android:textSize="18sp" />-->
 
-                <Spinner
-                    android:id="@+id/comboZona"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/comboLocalidad"
-                    android:layout_alignLeft="@id/strut"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="7dp"
-                    android:layout_toRightOf="@id/lblZona"
-                    android:entries="@array/comboZonas"
-                    android:gravity="center_horizontal"
-                    android:spinnerMode="dialog" />
+<!--                <Spinner-->
+<!--                    android:id="@+id/comboZona"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_below="@id/comboLocalidad"-->
+<!--                    android:layout_alignLeft="@id/strut"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_marginTop="11dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:layout_marginBottom="7dp"-->
+<!--                    android:layout_toRightOf="@id/lblZona"-->
+<!--                    android:entries="@array/comboZonas"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:spinnerMode="dialog" />-->
 
                 <EditText
                     android:id="@+id/txtlongitud"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/comboZona"
+                    android:layout_below="@id/comboLocalidad"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="10dp"

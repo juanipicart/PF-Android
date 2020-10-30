@@ -14,21 +14,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <service
-            android:name=".Fragments.ObservacionesService"
-            android:enabled="true"
-            android:exported="true" />
-
         <receiver
             android:name=".Fragments.ObservacionesService$AlarmReceiver"
             android:exported="false"
             tools:ignore="Instantiatable" />
-
-        <provider
-            android:name=".Fragments.ObservacionesProvider"
-            android:authorities="com.example.pf_android.provider"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity
             android:name=".LoginActivity"

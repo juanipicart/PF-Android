@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="comboLocalidad">
-        <item>Seleccione una opción</item>
-        <item>Montevideo</item>
-        <item>Canelones</item>
-        <item>Rocha</item>
-    </string-array>
     <string-array name="comboDeptos">
         <item>Seleccione una opción</item>
         <item>Artigas</item>

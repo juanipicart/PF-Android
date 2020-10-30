@@ -14,10 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.pf_android.Entities.Observacion;
 import com.example.pf_android.Entities.ObservacionAdapter;
+import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
 
 import org.json.JSONArray;
@@ -98,7 +97,7 @@ public class ListarObservaciones extends Fragment {
                     String latitud = obj.getString("latitud");
                     String altitud = obj.getString("altitud");
                     String fecha = obj.getString("fecha");
-                    observaciones.add(new Observacion(codigo, descripcion, fenomeno, departamento, localidad, zona, longitud, latitud, altitud, formatFecha(fecha)));
+                    //observaciones.add(new Observacion(codigo, descripcion, fenomeno, departamento, localidad, zona, longitud, latitud, altitud, formatFecha(fecha)));
                 }
                 mObservacionAdapter = new ObservacionAdapter(getActivity(), observaciones);
             } catch (Exception ex) {
@@ -131,13 +130,11 @@ public class ListarObservaciones extends Fragment {
                     bundle.putString("CODIGO", observacion.getCodigo());
                     bundle.putString("DESCRIPCION", observacion.getDescripcion());
                     bundle.putString("FENOMENO", observacion.getCodigo());
-                    bundle.putString("DEPARTAMENTO", observacion.getDepartmanto());
                     bundle.putString("LOCALIDAD", observacion.getLocalidad());
-                    bundle.putString("ZONA", observacion.getZona());
-                    bundle.putString("LATITUD", observacion.getLatitud());
-                    bundle.putString("LONGITUD", observacion.getLongitud());
-                    bundle.putString("ALTITUD", observacion.getAltitud());
-                    bundle.putString("FECHA", observacion.getDate());
+                    bundle.putFloat("LATITUD", observacion.getLatitud());
+                    bundle.putFloat("LONGITUD", observacion.getLongitud());
+                    bundle.putFloat("ALTITUD", observacion.getAltitud());
+                    bundle.putString("FECHA", observacion.getFecha());
 
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
                     detalleObsFragment.setArguments(bundle);

@@ -31,8 +31,13 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.pf_android.Apis.APIService;
+import com.example.pf_android.LoginActivity;
 import com.example.pf_android.Models.Fenomeno;
+import com.example.pf_android.Models.Localidad;
+import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
+import com.example.pf_android.remote.ApiUtils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,7 +50,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NuevaObsFragment extends Fragment {
 
-    Retrofit retrofit;
+    private static String API_BASE_URL = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/";
+    private static Retrofit retrofit;
+    private static Gson gson;
+    private APIService mAPIService;
+
     private static final String TAG = "MainActivity";
     public static final String codigo = "CODIGO";
     public static final String descripcion = "DESCRIPCION";
@@ -81,6 +90,7 @@ public class NuevaObsFragment extends Fragment {
     String longValue;
     String altValue;
     String fechaValue;
+    String usuario;
 
     TextView selectedFenomeno;
     TextView selectedDepartamento;
@@ -93,7 +103,9 @@ public class NuevaObsFragment extends Fragment {
     Bundle  bundle = new Bundle();
 
     ArrayList<Fenomeno> listaFenomenos = new ArrayList<>();
+    ArrayList<Localidad> listaLocalidades = new ArrayList<>();
     ArrayAdapter fenomenoAdapter;
+    ArrayAdapter localidadAdapter;
 
     public interface NuevaObsListener {
         void onBundleSent(Bundle bundle);
@@ -118,7 +130,7 @@ public class NuevaObsFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
 
@@ -128,15 +140,19 @@ public class NuevaObsFragment extends Fragment {
         btnAceptar = (Button) getView().findViewById(R.id.btnAceptar);
         txtDescripcion = (EditText) getView().findViewById(R.id.txtdescripcion);
         comboFenomeno = (Spinner) getView().findViewById(R.id.comboFenomenos);
-        comboDeptos = (Spinner) getView().findViewById(R.id.comboDeptos);
+        //comboDeptos = (Spinner) getView().findViewById(R.id.comboDeptos);
         comboLocalidad = (Spinner) getView().findViewById(R.id.comboLocalidad);
-        comboZona = (Spinner) getView().findViewById(R.id.comboZona);
+        //comboZona = (Spinner) getView().findViewById(R.id.comboZona);
         txtLatitud = (EditText) getView().findViewById(R.id.txtlatitud);
         txtAltitud = (EditText) getView().findViewById(R.id.txtaltitud);
         txtLongitud = (EditText) getView().findViewById(R.id.txtlongitud);
         fechaCreacion = (EditText) getView().findViewById(R.id.fechaCreacion);
+        usuario = getArguments().getString("usuario");
+
+        mAPIService = ApiUtils.getAPIService();
 
         getFenomenos();
+        getLocalidades();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         awesomeValidation.addValidation(getActivity(), R.id.txtCodigo,
@@ -166,6 +182,9 @@ public class NuevaObsFragment extends Fragment {
                 altValue = txtAltitud.getText().toString();
                 fechaValue = fechaCreacion.getText().toString();
 
+                Observacion obs = new Observacion(Float.valueOf(altValue), codigoValue, descripcionValue, "ACTIVO", fechaValue, fenomenoValue, Float.valueOf(latValue), localidadValue,
+                        Float.valueOf(longValue), usuario);
+
                 selectedFenomeno = (TextView) comboFenomeno.getSelectedView();
                 selectedDepartamento = (TextView) comboDeptos.getSelectedView();
                 selectedLocalidad = (TextView) comboLocalidad.getSelectedView();
@@ -175,38 +194,6 @@ public class NuevaObsFragment extends Fragment {
                     Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
-
-                    ContentValues values = new ContentValues();
-                    values.put(ObservacionesProvider.CODIGO, codigoValue);
-                    values.put(ObservacionesProvider.DESCRIPCION, descripcionValue);
-                    values.put(ObservacionesProvider.FENOMENO, fenomenoValue);
-                    values.put(ObservacionesProvider.DEPARTAMENTO, deptoValue);
-                    values.put(ObservacionesProvider.LOCALIDAD, localidadValue);
-                    values.put(ObservacionesProvider.ZONA, zonaValue);
-                    values.put(ObservacionesProvider.LONGITUD, longValue);
-                    values.put(ObservacionesProvider.LATITUD, latValue);
-                    values.put(ObservacionesProvider.ALTITUD, altValue);
-                    values.put(ObservacionesProvider.DATE, fechaValue);
-                    Uri uri = getActivity().getContentResolver().insert(ObservacionesProvider.CONTENT_URI, values);
-
-                    Cursor cursor = getActivity().getContentResolver().query(ObservacionesProvider.CONTENT_URI, null, null, null, null);
-                    Log.i("MSG", "Estas son las observaciones en la base de datos local");
-                    while (cursor.moveToNext()) {
-                        String codigo = cursor.getString(1);
-                        String descripcion = cursor.getString(2);
-                        String fenomeno = cursor.getString(3);
-                        String departamento = cursor.getString(4);
-                        String localidad = cursor.getString(5);
-                        String zona = cursor.getString(6);
-                        String longitud = cursor.getString(7);
-                        String latitud = cursor.getString(8);
-                        String altitud = cursor.getString(9);
-                        String date = cursor.getString(10);
-                        String StringToLog = "Código: " + codigo + ", Descripción: " + descripcion + ", Fenomeno: " + fenomeno + ", Departamento: " + departamento + ", Localidad: " + localidad +
-                                ", Zona: " + zona + ", Longitud: " + longitud + ", Latitud: " + latitud + ", Altitud: " + altitud + ", Fecha " + date;
-                        Log.i("Observación", StringToLog);
-                    }
-
                     bundle.putString(codigo, codigoValue);
                     bundle.putString(descripcion, descripcionValue);
                     bundle.putString(fenomeno, fenomenoValue);
@@ -218,6 +205,7 @@ public class NuevaObsFragment extends Fragment {
                     bundle.putString(altitud, altValue);
                     bundle.putString(fecha, fechaValue);
 
+                    createObservacion(obs);
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
                     detalleObsFragment.setArguments(bundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -304,8 +292,7 @@ public class NuevaObsFragment extends Fragment {
     }
 
     private void getFenomenos() {
-        APIService service = retrofit.create(APIService.class);
-        Call<ArrayList<Fenomeno>> call = service.getFenomenos();
+        Call<ArrayList<Fenomeno>> call = mAPIService.getFenomenos();
 
         call.enqueue(new Callback<ArrayList<Fenomeno>>() {
             @Override
@@ -328,6 +315,47 @@ public class NuevaObsFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<Fenomeno>> call, Throwable t) {
                     Log.w("MyTag", "requestFailed", t);
+            }
+        });
+    }
+
+    private void getLocalidades() {
+        Call<ArrayList<Localidad>> call = mAPIService.getLocalidades();
+        call.enqueue(new Callback<ArrayList<Localidad>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Localidad>> call, Response<ArrayList<Localidad>> response) {
+                if (response.isSuccessful()) {
+                    listaLocalidades = response.body();
+                    ArrayList<String> localidadesNombre = new ArrayList<>();
+                    for (int i=0; i< listaLocalidades.size(); i++) {
+                        localidadesNombre.add(listaLocalidades.get(i).getNombre());
+                    }
+                    localidadAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, localidadesNombre);
+                    comboLocalidad.setAdapter(localidadAdapter);
+                } else {
+                    Log.e("LOCALIDAD", response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Localidad>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void createObservacion(Observacion observacion) {
+        mAPIService.saveObservacion(observacion).enqueue(new Callback<Observacion>() {
+            @Override
+            public void onResponse(Call<Observacion> call, Response<Observacion> response) {
+                if (response.isSuccessful()) {
+                    Log.i("success", "post submitted to API." + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Observacion> call, Throwable t) {
+                Log.i("success", "post submitted to API.");
             }
         });
     }
