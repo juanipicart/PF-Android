@@ -100,8 +100,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+        if (item.getItemId() == R.id.home){
+            Intent i = new Intent(this, MainActivity.class);
+            i.putExtra("usuario", usuario);
+            startActivity(i);
+        }
+
         if (item.getItemId() == R.id.salir) {
-            finishAffinity();
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }
 
         return false;
