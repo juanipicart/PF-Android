@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -30,5 +31,8 @@ public interface APIService {
 
     @GET("ubicaciones/localidades")
     Call<ArrayList<Localidad>> getLocalidades();
+
+    @DELETE("observaciones/{id}")
+    Call<Observacion> deleteObservacion(@Path("id") long id);
 
 }

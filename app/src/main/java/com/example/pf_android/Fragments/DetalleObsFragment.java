@@ -1,5 +1,7 @@
 package com.example.pf_android.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -9,17 +11,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.MainActivity;
+import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
+import com.example.pf_android.remote.ApiUtils;
+import com.google.gson.Gson;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class DetalleObsFragment extends Fragment {
+
+    private static String API_BASE_URL = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/";
+    private static Retrofit retrofit;
+    private static Gson gson;
+    private APIService mAPIService;
 
     private TextView txtCodigo;
     private TextView txtDescripcion;
@@ -31,6 +49,8 @@ public class DetalleObsFragment extends Fragment {
     private TextView txtLatitud;
     private TextView txtAltitud;
     private TextView txtFecha;
+    private Button btnEliminar;
+
 
     String codigo;
     String descripcion;
@@ -42,6 +62,7 @@ public class DetalleObsFragment extends Fragment {
     String latitud;
     String altitud;
     String fecha;
+    Long id;
 
     private EditText txtComboFen;
     Bundle bundle = new Bundle();
@@ -62,19 +83,23 @@ public class DetalleObsFragment extends Fragment {
         txtLatitud = (TextView) mView.findViewById(R.id.txtLatitud);
         txtAltitud = (TextView) mView.findViewById(R.id.txtAltitud);
         txtFecha = (TextView) mView.findViewById(R.id.txtFecha);
+        btnEliminar = (Button) mView.findViewById(R.id.btnDelete);
 
+        mAPIService = ApiUtils.getAPIService();
         bundle = getArguments();
 
-        codigo = bundle.getString(NuevaObsFragment.codigo);
-        descripcion = bundle.getString(NuevaObsFragment.descripcion);
-        fenomeno = bundle.getString(NuevaObsFragment.fenomeno);
-        departamento = bundle.getString(NuevaObsFragment.depto);
-        localidad = bundle.getString(NuevaObsFragment.localidad);
-        zona = bundle.getString(NuevaObsFragment.zona);
-        longitud = bundle.getString(NuevaObsFragment.longitud);
-        latitud = bundle.getString(NuevaObsFragment.latitud);
-        altitud = bundle.getString(NuevaObsFragment.altitud);
-        fecha = bundle.getString(NuevaObsFragment.fecha);
+        codigo = bundle.getString("CODIGO");
+        descripcion = bundle.getString("DESCRIPCION");
+        fenomeno = bundle.getString("FENOMENO");
+        departamento = bundle.getString("DEPARTAMENTO");
+        localidad = bundle.getString("LOCALIDAD");
+        zona = bundle.getString("ZONA");
+        longitud = bundle.getString("LONGITUD");
+        latitud = bundle.getString("LATITUD");
+        altitud = bundle.getString("ALTITUD");
+        fecha = bundle.getString("FECHA");
+        id = bundle.getLong("ID");
+
 
         txtCodigo.setText(codigo);
         txtDescripcion.setText(descripcion);
@@ -87,12 +112,21 @@ public class DetalleObsFragment extends Fragment {
         txtLatitud.setText(latitud);
         txtAltitud.setText(altitud);
         txtFecha.setText(fecha);
+
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarDialogoBasico();
+            }
+        });
+
         return view;
+
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
 
@@ -113,6 +147,46 @@ public class DetalleObsFragment extends Fragment {
 
     }
 
+    private void eliminarObservacion (long id) {
+        Call<Observacion> call = mAPIService.deleteObservacion(id);
+        call.enqueue(new Callback<Observacion>() {
+            @Override
+            public void onResponse(Call<Observacion> call, Response<Observacion> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Se elimino la observacion", Toast.LENGTH_LONG).show();
+                    Log.i("success", "post submitted to API." + response.body().toString());
+                } else {
+                    Toast.makeText(getActivity(), "Ocurrió un error", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Observacion> call, Throwable t) {
+                Log.i("success", "post submitted to API.");
+            }
+        });
+    }
+
+    private void mostrarDialogoBasico (){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Eliminacion");
+        builder.setMessage("Quieres eliminar esta observacion?")
+                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        eliminarObservacion(id);
+
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setCancelable(false)
+                .show();
+    }
 
 
 }

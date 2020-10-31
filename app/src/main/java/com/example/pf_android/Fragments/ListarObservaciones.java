@@ -92,6 +92,7 @@ public class ListarObservaciones extends Fragment {
                 try {
                     Observacion observacion = (Observacion) mObservacionesList.getItemAtPosition(i);
                     Bundle  bundle = new Bundle();
+                    bundle.putLong("ID", observacion.getId());
                     bundle.putString("CODIGO", observacion.getCodigo());
                     bundle.putString("DESCRIPCION", observacion.getDescripcion());
                     bundle.putString("FENOMENO", observacion.getCodigo());

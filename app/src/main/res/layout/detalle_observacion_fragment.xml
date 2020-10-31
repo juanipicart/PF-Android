@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lytContenedor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -306,6 +307,22 @@
                     android:layout_marginBottom="7dp"
                     android:gravity="center_vertical"
                     android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/txtFecha"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center"
+                    android:text="Eliminar"
+                    android:textSize="18dp"
+                    tools:text="Eliminar" />
 
             </RelativeLayout>
 

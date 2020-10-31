@@ -66,6 +66,8 @@ public class NuevaObsFragment extends Fragment {
     public static final String latitud = "LATITUD";
     public static final String altitud = "ALTITUD";
     public static final String fecha = "FECHA";
+    public static final String id = "ID";
+
 
     private Button btnAceptar;
     private EditText txtCodigo;
@@ -91,6 +93,7 @@ public class NuevaObsFragment extends Fragment {
     String altValue;
     String fechaValue;
     String usuario;
+    String idValue;
 
     TextView selectedFenomeno;
     TextView selectedDepartamento;
