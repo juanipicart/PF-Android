@@ -32,12 +32,29 @@ public class Observacion {
     @SerializedName("localidad")
     @Expose
     private String localidad;
+    @SerializedName("departamento")
+    @Expose
+    private String departamento;
     @SerializedName("longitud")
     @Expose
     private float longitud;
     @SerializedName("usuario")
     @Expose
     private String usuario;
+
+    public Observacion(float altitud, String codigo, String descripcion, String estado, String fecha, String fenomeno, float latitud, String localidad, String departamento, float longitud, String usuario) {
+        this.altitud = altitud;
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.fecha = fecha;
+        this.fenomeno = fenomeno;
+        this.id = id;
+        this.latitud = latitud;
+        this.localidad = localidad;
+        this.longitud = longitud;
+        this.usuario = usuario;
+    }
 
     public Observacion(float altitud, String codigo, String descripcion, String estado, String fecha, String fenomeno, float latitud, String localidad, float longitud, String usuario) {
         this.altitud = altitud;
@@ -123,6 +140,14 @@ public class Observacion {
 
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
+    }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
     }
 
     public float getLongitud() {

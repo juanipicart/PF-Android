@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.MainActivity;
@@ -50,6 +52,7 @@ public class DetalleObsFragment extends Fragment {
     private TextView txtAltitud;
     private TextView txtFecha;
     private Button btnEliminar;
+    private Button btnModificar;
 
 
     String codigo;
@@ -62,6 +65,7 @@ public class DetalleObsFragment extends Fragment {
     String latitud;
     String altitud;
     String fecha;
+    String usuario;
     Long id;
 
     private EditText txtComboFen;
@@ -78,12 +82,12 @@ public class DetalleObsFragment extends Fragment {
         txtFenomeno = (TextView) mView.findViewById(R.id.txtFenomeno);
         txtDepartamento = (TextView) mView.findViewById(R.id.txtDepartamento);
         txtLocalidad = (TextView) mView.findViewById(R.id.txtLocalidad);
-        txtZona = (TextView) mView.findViewById(R.id.txtZona);
         txtLongitud = (TextView) mView.findViewById(R.id.txtLongitud);
         txtLatitud = (TextView) mView.findViewById(R.id.txtLatitud);
         txtAltitud = (TextView) mView.findViewById(R.id.txtAltitud);
         txtFecha = (TextView) mView.findViewById(R.id.txtFecha);
         btnEliminar = (Button) mView.findViewById(R.id.btnDelete);
+        btnModificar = (Button) mView.findViewById(R.id.btnModify);
 
         mAPIService = ApiUtils.getAPIService();
         bundle = getArguments();
@@ -99,6 +103,7 @@ public class DetalleObsFragment extends Fragment {
         altitud = bundle.getString("ALTITUD");
         fecha = bundle.getString("FECHA");
         id = bundle.getLong("ID");
+        usuario = bundle.getString("USUARIO");
 
 
         txtCodigo.setText(codigo);
@@ -107,7 +112,6 @@ public class DetalleObsFragment extends Fragment {
         txtFenomeno.setText(fenomeno);
         txtDepartamento.setText(departamento);
         txtLocalidad.setText(localidad);
-        txtZona.setText(zona);
         txtLongitud.setText(longitud);
         txtLatitud.setText(latitud);
         txtAltitud.setText(altitud);
@@ -117,6 +121,13 @@ public class DetalleObsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mostrarDialogoBasico();
+            }
+        });
+
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modificarObservacion();
             }
         });
 
@@ -186,6 +197,16 @@ public class DetalleObsFragment extends Fragment {
                 })
                 .setCancelable(false)
                 .show();
+    }
+
+    private void modificarObservacion () {
+
+        ModificarFragment modificarFragment = new ModificarFragment();
+        modificarFragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment, modificarFragment, "Encuentro el fragment");
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
 

@@ -141,7 +141,6 @@ public class NuevaObsFragment extends Fragment {
         txtLatitud = (EditText) getView().findViewById(R.id.txtlatitud);
         txtAltitud = (EditText) getView().findViewById(R.id.txtaltitud);
         txtLongitud = (EditText) getView().findViewById(R.id.txtlongitud);
-        //fechaCreacion = (EditText) getView().findViewById(R.id.fechaCreacion);
         usuario = getArguments().getString("usuario");
 
         mAPIService = ApiUtils.getAPIService();
@@ -350,7 +349,7 @@ public class NuevaObsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Observacion> call, Throwable t) {
-                Log.i("success", "post submitted to API.");
+                Log.i("error", "post to API failed.");
             }
         });
     }

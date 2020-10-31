@@ -95,12 +95,15 @@ public class ListarObservaciones extends Fragment {
                     bundle.putLong("ID", observacion.getId());
                     bundle.putString("CODIGO", observacion.getCodigo());
                     bundle.putString("DESCRIPCION", observacion.getDescripcion());
-                    bundle.putString("FENOMENO", observacion.getCodigo());
+                    bundle.putString("FENOMENO", observacion.getFenomeno());
                     bundle.putString("LOCALIDAD", observacion.getLocalidad());
+                    bundle.putString("DEPARTAMENTO", observacion.getDepartamento());
                     bundle.putString("LATITUD", String.valueOf(observacion.getLatitud()));
                     bundle.putString("LONGITUD", String.valueOf(observacion.getLongitud()));
                     bundle.putString("ALTITUD", String.valueOf(observacion.getAltitud()));
                     bundle.putString("FECHA", observacion.getFecha());
+                    bundle.putString("DEPARTAMENTO", observacion.getDepartamento());
+                    bundle.putString("USUARIO", usuario);
 
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
                     detalleObsFragment.setArguments(bundle);

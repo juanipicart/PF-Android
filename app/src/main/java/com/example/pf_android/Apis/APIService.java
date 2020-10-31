@@ -13,6 +13,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface APIService {
@@ -34,5 +35,8 @@ public interface APIService {
 
     @DELETE("observaciones/{id}")
     Call<Observacion> deleteObservacion(@Path("id") long id);
+
+    @PUT("observaciones/{id}")
+    Call<Observacion> modifyObservacion(@Body Observacion observacion, @Path("id") long id);
 
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lytContenedor"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ModificarFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70sp"
                     android:layout_marginBottom="7dp"
-                    android:text="@string/detalleObs"
+                    android:text="@string/modifObs"
                     android:textAlignment="center"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -77,7 +76,7 @@
                     android:text="@string/lblDescripcion"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
@@ -105,22 +104,22 @@
                     android:text="@string/lblFenomeno"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtFenomeno"
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/comboFenomenos"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_below="@id/txtDescripcion"
                     android:layout_alignLeft="@id/strut"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="15dp"
                     android:layout_marginBottom="7dp"
-                    android:gravity="center_vertical"
-                    android:textSize="18dp" />
+                    android:layout_toRightOf="@id/lblFenomeno"
+                    android:gravity="center_horizontal"
+                    android:spinnerMode="dialog" />
 
                 <TextView
-                    android:id="@+id/lblDepartamento"
+                    android:id="@+id/lblLocalidad"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_below="@id/lblFenomeno"
@@ -129,49 +128,22 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:gravity="center_vertical"
-                    android:text="@string/lblDepto"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtDepartamento"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/txtFenomeno"
-                    android:layout_alignLeft="@id/strut"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="7dp"
-                    android:gravity="center_vertical"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/lblLocalidad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/lblDepartamento"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="7dp"
-                    android:gravity="center_vertical"
                     android:text="@string/lblLocalidad"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLocalidad"
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/comboLocalidad"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
-                    android:layout_below="@id/txtDepartamento"
+                    android:layout_below="@id/comboFenomenos"
                     android:layout_alignLeft="@id/strut"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="15dp"
                     android:layout_marginBottom="7dp"
-                    android:gravity="center_vertical"
-                    android:textSize="18dp" />
+                    android:layout_toRightOf="@id/lblLocalidad"
+                    android:gravity="center_horizontal"
+                    android:spinnerMode="dialog" />
 
                 <TextView
                     android:id="@+id/lblLongitud"
@@ -186,11 +158,11 @@
                     android:text="@string/lblLongitud"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtLongitud"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_below="@id/txtLocalidad"
+                    android:layout_below="@id/comboLocalidad"
                     android:layout_alignLeft="@id/strut"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp"
@@ -198,6 +170,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
                     android:gravity="center_vertical"
+                    android:inputType="numberDecimal|numberSigned"
                     android:textSize="18dp" />
 
                 <TextView
@@ -213,7 +186,7 @@
                     android:text="@string/lblLatitud"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtLatitud"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -225,7 +198,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
                     android:gravity="center_vertical"
-                    android:textSize="18dp" />
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:id="@+id/lblAltitud"
@@ -240,7 +213,7 @@
                     android:text="@string/lblAltitud"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtAltitud"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -252,7 +225,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
                     android:gravity="center_vertical"
-                    android:textSize="18dp" />
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:id="@+id/lblFecha"
@@ -267,7 +240,7 @@
                     android:text="@string/lblFecha"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtFecha"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -278,35 +251,37 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
+                    android:clickable="true"
+                    android:focusable="false"
                     android:gravity="center_vertical"
-                    android:textSize="18dp" />
+                    android:inputType="date" />
 
                 <Button
-                    android:id="@+id/btnModify"
+                    android:id="@+id/btnCancel"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_below="@id/txtFecha"
+                    android:layout_below="@id/lblFecha"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="14dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:text="Modificar"
+                    android:text="Cancelar"
                     android:textSize="18dp" />
 
                 <Button
-                    android:id="@+id/btnDelete"
+                    android:id="@+id/btnModify"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_below="@id/btnModify"
+                    android:layout_below="@id/btnCancel"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
                     android:gravity="center"
-                    android:text="Eliminar"
+                    android:text="Confirmar"
                     android:textSize="18dp" />
 
             </RelativeLayout>
