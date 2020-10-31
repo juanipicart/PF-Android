@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.math.BigDecimal;
 
@@ -27,6 +29,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -51,7 +54,7 @@ public class ListarObservaciones extends Fragment {
     private APIService mService;
     private String usuario;
     private ArrayList<Observacion> listaObservaciones = new ArrayList<>();
-
+    private TextView txtResultado;
 
     public ListarObservaciones() {
 
@@ -81,6 +84,7 @@ public class ListarObservaciones extends Fragment {
         usuario = getArguments().getString("usuario");
         getObservaciones(usuario);
         mObservacionesList.setAdapter(mObservacionAdapter);
+        txtResultado = (TextView) root.findViewById(R.id.txtResultado);
         return root;
     }
 
@@ -135,6 +139,11 @@ public class ListarObservaciones extends Fragment {
                     mObservacionAdapter = new ObservacionAdapter(getActivity(),listaObservaciones);
                     mObservacionesList.setAdapter(mObservacionAdapter);
                     addOnItemClickListener(mObservacionesList);
+
+                    if (listaObservaciones.size() == 0)
+                    {
+                        txtResultado.setText("No tiene observaciones registradas");
+                    }
                 }
             }
 
