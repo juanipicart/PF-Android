@@ -1,9 +1,11 @@
 package com.example.pf_android.Fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +73,7 @@ public class DetalleObsFragment extends Fragment {
     private EditText txtComboFen;
     Bundle bundle = new Bundle();
     View mView = null;
+    ProgressDialog nDialog;
 
     @Nullable
     @Override
@@ -164,7 +167,7 @@ public class DetalleObsFragment extends Fragment {
             @Override
             public void onResponse(Call<Observacion> call, Response<Observacion> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Se elimino la observacion", Toast.LENGTH_LONG).show();
+
                     Log.i("success", "post submitted to API." + response.body().toString());
                 } else {
                     Toast.makeText(getActivity(), "Ocurrió un error", Toast.LENGTH_LONG).show();
@@ -182,14 +185,35 @@ public class DetalleObsFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Eliminacion");
         builder.setMessage("Quieres eliminar esta observacion?")
-                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         eliminarObservacion(id);
 
+                        nDialog = new ProgressDialog(getActivity());
+                        nDialog.setMessage("Cargando...");
+                        nDialog.setIndeterminate(false);
+                        nDialog.setCancelable(true);
+                        nDialog.show();
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                nDialog.dismiss();
+                                Toast.makeText(getActivity(), "Se elimino la observacion", Toast.LENGTH_LONG).show();
+                                ListarObservaciones listarFragment = new ListarObservaciones();
+                                bundle.putString("usuario", usuario);
+                                listarFragment.setArguments(bundle);
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.container_fragment, listarFragment, "Encuentro el fragment");
+                                fragmentTransaction.addToBackStack(null).commit();
+                            }
+                        }, 1000);
                     }
                 })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

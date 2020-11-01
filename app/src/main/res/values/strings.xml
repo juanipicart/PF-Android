@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PF - Android</string>
+    <string name="app_name">Green Place App</string>
     <string name="Open">open</string>
     <string name="Close">close</string>
     <string name="codigo">Código</string>
@@ -46,4 +46,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">Grean Place App</string>
     <string name="modifObs">Modificar Observación</string>
+    <string name="error_altitud">Valor inválido. El punto máximo de Uruguay es 523.66 metros.</string>
+    <string name="error_longitud">La longitud ingresada no pertenece al territorio uruguayo.</string>
+    <string name="error_latitud">La latitud ingresada no pertenece al territorio uruguayo.</string>
+    <string name="invalidFecha">Ingresa una fecha</string>
 </resources>

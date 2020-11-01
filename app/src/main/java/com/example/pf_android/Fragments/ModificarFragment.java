@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,7 +26,9 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
 import com.example.pf_android.Apis.APIService;
+import com.example.pf_android.Models.Departamento;
 import com.example.pf_android.Models.Fenomeno;
 import com.example.pf_android.Models.Localidad;
 import com.example.pf_android.Models.Observacion;
@@ -34,6 +37,7 @@ import com.example.pf_android.remote.ApiUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,7 +54,6 @@ public class ModificarFragment extends Fragment {
     private Spinner comboFenomeno;
     private Spinner comboDeptos;
     private Spinner comboLocalidad;
-    private Spinner comboZona;
     private EditText txtLongitud;
     private EditText txtLatitud;
     private EditText txtAltitud;
@@ -78,8 +81,10 @@ public class ModificarFragment extends Fragment {
 
     public ArrayList<Fenomeno> listaFenomenos = new ArrayList<>();
     public ArrayList<Localidad> listaLocalidades = new ArrayList<>();
+    public ArrayList<Departamento> listaDepartamentos = new ArrayList<>();
     public static ArrayAdapter<String> fenomenoAdapter;
     public static ArrayAdapter localidadAdapter;
+    private ArrayAdapter departamentoAdapter;
     private APIService mAPIService;
 
     public ModificarFragment() {
@@ -102,7 +107,7 @@ public class ModificarFragment extends Fragment {
         txtCodigo = (TextView) mView.findViewById(R.id.txtCodigo);
         txtDescripcion = (EditText) mView.findViewById(R.id.txtDescripcion);
         comboFenomeno = (Spinner) mView.findViewById(R.id.comboFenomenos);
-        //comboDeptos = (Spinner) getView().findViewById(R.id.comboDeptos);
+        comboDeptos = (Spinner) mView.findViewById(R.id.comboDeptos);
         comboLocalidad = (Spinner) mView.findViewById(R.id.comboLocalidad);
         txtLatitud = (EditText) mView.findViewById(R.id.txtLatitud);
         txtAltitud = (EditText) mView.findViewById(R.id.txtAltitud);
@@ -110,14 +115,61 @@ public class ModificarFragment extends Fragment {
         btnConfirmar = (Button) mView.findViewById(R.id.btnModify);
         btnCancelar = (Button) mView.findViewById(R.id.btnCancel);
 
+        bundle = getArguments();
         mAPIService = ApiUtils.getAPIService();
         getFenomenos();
-        getLocalidades();
+        getDepartamentos();
+        getLocalidades(bundle.getString("DEPARTAMENTO"));
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
-        awesomeValidation.addValidation(getActivity(), R.id.txtCodigo,
-                RegexTemplate.NOT_EMPTY, R.string.invalidCodigo);
+        awesomeValidation.addValidation(getActivity(), R.id.txtAltitud, new SimpleCustomValidation() {
+            @Override
+            public boolean compare(String altitud) {
+                if (!altitud.isEmpty()) {
+                    if (Integer.parseInt(altitud) > 514) {
+                        return false;
+                    } else if (Integer.parseInt(altitud) < 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }, R.string.error_altitud);
+        awesomeValidation.addValidation(getActivity(), R.id.txtLongitud, new SimpleCustomValidation() {
+            @Override
+            public boolean compare(String longitud) {
+                if (!longitud.isEmpty()) {
+                    if (Long.parseLong(longitud) < -58.43) {
+                        return false;
+                    } else if (Long.parseLong(longitud) > -53.18) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }, R.string.error_longitud);
+        awesomeValidation.addValidation(getActivity(), R.id.txtLatitud, new SimpleCustomValidation() {
+            @Override
+            public boolean compare(String latitud) {
+                if (!latitud.isEmpty()) {
+                    if (Long.parseLong(latitud) < -34.98) {
+                        return false;
+                    } else if (Long.parseLong(latitud) > -30.08) {
+                        return false;
+                    } else {
+                        return true;
+                    } } else {
+                    return true;
+                }
+            }
+        }, R.string.error_latitud);
         awesomeValidation.addValidation(getActivity(), R.id.txtdescripcion,
                 RegexTemplate.NOT_EMPTY, R.string.invalidDesc);
         awesomeValidation.addValidation(getActivity(), R.id.txtlatitud,
@@ -126,8 +178,10 @@ public class ModificarFragment extends Fragment {
                 RegexTemplate.NOT_EMPTY, R.string.invalidLong);
         awesomeValidation.addValidation(getActivity(), R.id.txtaltitud,
                 RegexTemplate.NOT_EMPTY, R.string.invalidAlt);
+        awesomeValidation.addValidation(getActivity(), R.id.fechaCreacion,
+                RegexTemplate.NOT_EMPTY, R.string.invalidFecha);
 
-        bundle = getArguments();
+
         codigo = bundle.getString("CODIGO");
         descripcion = bundle.getString("DESCRIPCION");
         fenomeno = bundle.getString("FENOMENO");
@@ -154,7 +208,7 @@ public class ModificarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fenomeno = comboFenomeno.getSelectedItem().toString();
-                //deptoValue = comboDeptos.getSelectedItem().toString();
+                departamento = comboDeptos.getSelectedItem().toString();
                 localidad = comboLocalidad.getSelectedItem().toString();
                 codigo = txtCodigo.getText().toString();
                 descripcion = txtDescripcion.getText().toString();
@@ -169,10 +223,11 @@ public class ModificarFragment extends Fragment {
                 if (!awesomeValidation.validate()) {
                     Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getActivity(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Modificación de observación exitosa!", Toast.LENGTH_SHORT).show();
                     bundle.putString("CODIGO", codigo);
                     bundle.putString("DESCRIPCION", descripcion);
                     bundle.putString("FENOMENO", fenomeno);
+                    bundle.putString("DEPARTAMENTO", departamento);
                     bundle.putString("LOCALIDAD", localidad);
                     bundle.putString("LATITUD", latitud);
                     bundle.putString("LONGITUD", longitud);
@@ -189,6 +244,18 @@ public class ModificarFragment extends Fragment {
 
 
                 }
+            }
+        });
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
+                detalleObsFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
 
@@ -220,6 +287,19 @@ public class ModificarFragment extends Fragment {
 
             }
         };
+
+        comboDeptos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String departamento = comboDeptos.getSelectedItem().toString();
+                getLocalidades(departamento);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         return view;
     }
@@ -253,8 +333,8 @@ public class ModificarFragment extends Fragment {
         });
     }
 
-    private void getLocalidades() {
-        Call<ArrayList<Localidad>> call = mAPIService.getLocalidades();
+    private void getLocalidades(String nombre_depto) {
+        Call<ArrayList<Localidad>> call = mAPIService.getLocalidades(nombre_depto);
         call.enqueue(new Callback<ArrayList<Localidad>>() {
             @Override
             public void onResponse(Call<ArrayList<Localidad>> call, Response<ArrayList<Localidad>> response) {
@@ -275,6 +355,30 @@ public class ModificarFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Localidad>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getDepartamentos() {
+        Call<ArrayList<Departamento>> call = mAPIService.getDepartamentos();
+        call.enqueue(new Callback<ArrayList<Departamento>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Departamento>> call, Response<ArrayList<Departamento>> response) {
+                if (response.isSuccessful()) {
+                    listaDepartamentos = response.body();
+                    ArrayList<String> departamentosNombre = new ArrayList<>();
+                    for (int i = 0; i < listaDepartamentos.size(); i++) {
+                        departamentosNombre.add(listaDepartamentos.get(i).getNombre());
+                    }
+                    departamentoAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, departamentosNombre);
+                    comboDeptos.setAdapter(departamentoAdapter);
+                    comboDeptos.setSelection(departamentoAdapter.getPosition(departamento));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Departamento>> call, Throwable t) {
 
             }
         });

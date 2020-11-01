@@ -1,5 +1,6 @@
 package com.example.pf_android.Apis;
 
+import com.example.pf_android.Models.Departamento;
 import com.example.pf_android.Models.Fenomeno;
 import com.example.pf_android.Models.Localidad;
 import com.example.pf_android.Models.Login;
@@ -30,8 +31,11 @@ public interface APIService {
     @POST("observaciones")
     Call<Observacion> saveObservacion(@Body Observacion observacion);
 
-    @GET("ubicaciones/localidades")
-    Call<ArrayList<Localidad>> getLocalidades();
+    @GET("ubicaciones/localidades/{depto}")
+    Call<ArrayList<Localidad>> getLocalidades(@Path("depto") String nombre_depto);
+
+    @GET("ubicaciones/departamentos")
+    Call<ArrayList<Departamento>> getDepartamentos();
 
     @DELETE("observaciones/{id}")
     Call<Observacion> deleteObservacion(@Path("id") long id);
