@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -97,6 +99,7 @@ public class NuevaObsFragment extends Fragment {
     String usuario;
     String idValue;
     String imagePath;
+    Bitmap bitmap;
     TextView selectedFenomeno;
     TextView selectedDepartamento;
     TextView selectedLocalidad;
@@ -246,9 +249,9 @@ public class NuevaObsFragment extends Fragment {
                 longValue = txtLongitud.getText().toString();
                 altValue = txtAltitud.getText().toString();
                 fechaValue = fechaCreacion.getText().toString();
-//                if (!imagen.getDrawable().toString().isEmpty()) {
-//                    imagenValue = convertImageToBase64();
-//                }
+                if (!imagen.getDrawable().toString().isEmpty()) {
+                    imagenValue = convertImageToBase64();
+                }
 
                 selectedFenomeno = (TextView) comboFenomeno.getSelectedView();
                 selectedLocalidad = (TextView) comboLocalidad.getSelectedView();
@@ -271,7 +274,7 @@ public class NuevaObsFragment extends Fragment {
                     bundle.putString("USUARIO", usuario);
 
                     Observacion obs = new Observacion(Float.valueOf(altValue), codigoValue, descripcionValue, "PENDIENTE", fechaValue, fenomenoValue, Float.valueOf(latValue), localidadValue,
-                            Float.valueOf(longValue), usuario);
+                            Float.valueOf(longValue), usuario, imagenValue);
 
                     createObservacion(obs);
 
@@ -456,9 +459,11 @@ public class NuevaObsFragment extends Fragment {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
                     fragmentTransaction.addToBackStack(null).commit();
-                } else {
+                } else if (response.code() == 400) {
                     txtCodigo.setError("El código ya existe en el sistema. Debe ingresar otro.");
                     Toast.makeText(getActivity(), "El código ya existe en el sistema. Debe ingresar otro.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Se perdió la conexión con el servidor.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -496,14 +501,18 @@ public class NuevaObsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == -1 && requestCode == IMAGE_PICK_CODE){
             imagen.setImageURI(data.getData());
-            imagePath = data.getData().getPath();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private String convertImageToBase64() {
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         byte[] imageBytes = baos.toByteArray();
         String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return imageString;

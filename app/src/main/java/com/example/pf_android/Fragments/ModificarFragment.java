@@ -218,7 +218,7 @@ public class ModificarFragment extends Fragment {
                 fecha = fechaCreacion.getText().toString();
 
                 Observacion obs = new Observacion(Float.valueOf(altitud), codigo, descripcion, "PENDIENTE", fecha, fenomeno, Float.valueOf(latitud), localidad,
-                        Float.valueOf(longitud), usuario);
+                        Float.valueOf(longitud), usuario, null);
 
                 if (!awesomeValidation.validate()) {
                     Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
