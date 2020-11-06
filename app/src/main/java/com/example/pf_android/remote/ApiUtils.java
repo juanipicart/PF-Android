@@ -9,7 +9,7 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://192.168.1.42:8092/TareaPDT_JSF/faces/rest/";
+    public static final String BASE_URL = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/";
 
     public static APIService getAPIService() {
 

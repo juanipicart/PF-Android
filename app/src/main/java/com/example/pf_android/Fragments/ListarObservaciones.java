@@ -48,7 +48,7 @@ public class ListarObservaciones extends Fragment {
 
     ListView mObservacionesList;
     ArrayAdapter<Observacion> mObservacionAdapter;
-    private static String API_BASE_URL = "http://192.168.210.4:8081/TareaPDT_JSF/faces/rest/";
+    private static String API_BASE_URL = ApiUtils.BASE_URL;
     private static Retrofit retrofit;
     private static Gson gson;
     private APIService mService;
