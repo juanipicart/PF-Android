@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -52,7 +53,12 @@ import com.example.pf_android.remote.ApiUtils;
 import com.google.common.collect.Range;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -267,13 +273,7 @@ public class NuevaObsFragment extends Fragment {
                             Float.valueOf(longValue), usuario);
 
                     createObservacion(obs);
-                    Toast.makeText(getActivity(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
-                    DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
-                    detalleObsFragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
-                    fragmentTransaction.addToBackStack(null).commit();
+
 
 
                 }
@@ -445,7 +445,19 @@ public class NuevaObsFragment extends Fragment {
             @Override
             public void onResponse(Call<Observacion> call, Response<Observacion> response) {
                 if (response.isSuccessful()) {
-                    Log.i("success", "post submitted to API." + response.body().toString());
+                    Log.i("success", "post submitted to API.");
+                    Long id = (long) response.body().getId();
+                    bundle.putLong("ID", id);
+                    Toast.makeText(getActivity(), "Alta de observación exitoso!", Toast.LENGTH_SHORT).show();
+                    DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
+                    detalleObsFragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
+                    fragmentTransaction.addToBackStack(null).commit();
+                } else {
+                    txtCodigo.setError("El código ya existe en el sistema. Debe ingresar otro.");
+                    Toast.makeText(getActivity(), "El código ya existe en el sistema. Debe ingresar otro.", Toast.LENGTH_SHORT).show();
                 }
             }
 
