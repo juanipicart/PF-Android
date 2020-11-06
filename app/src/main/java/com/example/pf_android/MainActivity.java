@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         intent = getIntent();
         usuario = intent.getStringExtra("usuario");
-        bundle.putString("usuario", usuario);
+        bundle.putString("USUARIO", usuario);
     }
 
     @Override

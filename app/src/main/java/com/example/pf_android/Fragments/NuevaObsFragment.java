@@ -162,7 +162,7 @@ public class NuevaObsFragment extends Fragment {
         txtLongitud = (EditText) getView().findViewById(R.id.txtlongitud);
         btnImagen = (Button) getView().findViewById(R.id.btnImagen);
         imagen = (ImageView) getView().findViewById(R.id.imagenAlta);
-        usuario = getArguments().getString("usuario");
+        usuario = getArguments().getString("USUARIO");
 
         mAPIService = ApiUtils.getAPIService();
 
@@ -268,6 +268,7 @@ public class NuevaObsFragment extends Fragment {
                     bundle.putString(altitud, altValue);
                     bundle.putString(fecha, fechaValue);
                     bundle.putString("IMAGEN", imagenValue);
+                    bundle.putString("USUARIO", usuario);
 
                     Observacion obs = new Observacion(Float.valueOf(altValue), codigoValue, descripcionValue, "PENDIENTE", fechaValue, fenomenoValue, Float.valueOf(latValue), localidadValue,
                             Float.valueOf(longValue), usuario);
