@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,6 +48,7 @@ import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
 import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.LoginActivity;
+import com.example.pf_android.MainActivity;
 import com.example.pf_android.Models.Departamento;
 import com.example.pf_android.Models.Fenomeno;
 import com.example.pf_android.Models.Localidad;
@@ -134,6 +138,9 @@ public class NuevaObsFragment extends Fragment {
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
 
+    private LocationManager locManager;
+    private Location loc;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -172,6 +179,18 @@ public class NuevaObsFragment extends Fragment {
         getFenomenos();
         getDepartamentos();
         getLocalidades("ARTIGAS");
+
+        ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+        if (!(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED))
+        {
+            locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            txtLongitud.setText(String.valueOf(loc.getLongitude()));
+            txtAltitud.setText(String.valueOf(loc.getAltitude()));
+            txtLatitud.setText(String.valueOf(loc.getLatitude()));
+        }
+
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
