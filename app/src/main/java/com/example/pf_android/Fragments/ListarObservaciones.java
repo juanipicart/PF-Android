@@ -81,7 +81,7 @@ public class ListarObservaciones extends Fragment {
         View root = inflater.inflate(R.layout.fragment_listar_observaciones, container, false);
 
         mObservacionesList = (ListView) root.findViewById(R.id.observaciones_list);
-        usuario = getArguments().getString("usuario");
+        usuario = getArguments().getString("USUARIO");
         getObservaciones(usuario);
         mObservacionesList.setAdapter(mObservacionAdapter);
         txtResultado = (TextView) root.findViewById(R.id.txtResultado);
@@ -107,6 +107,7 @@ public class ListarObservaciones extends Fragment {
                     bundle.putString("ALTITUD", String.valueOf(observacion.getAltitud()));
                     bundle.putString("FECHA", observacion.getFecha());
                     bundle.putString("DEPARTAMENTO", observacion.getDepartamento());
+                    bundle.putString("IMAGEN", observacion.getImagen());
                     bundle.putString("USUARIO", usuario);
 
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();

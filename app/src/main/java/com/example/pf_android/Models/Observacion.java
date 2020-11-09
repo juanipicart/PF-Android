@@ -170,4 +170,11 @@ public class Observacion {
         this.usuario = usuario;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }

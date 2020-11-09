@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,8 @@ import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
 import com.example.pf_android.remote.ApiUtils;
 import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,11 +54,11 @@ public class DetalleObsFragment extends Fragment {
     private TextView txtFenomeno;
     private TextView txtDepartamento;
     private TextView txtLocalidad;
-    private TextView txtZona;
     private TextView txtLongitud;
     private TextView txtLatitud;
     private TextView txtAltitud;
     private TextView txtFecha;
+    private ImageView imageView;
     private Button btnEliminar;
     private Button btnModificar;
 
@@ -68,6 +74,7 @@ public class DetalleObsFragment extends Fragment {
     String altitud;
     String fecha;
     String usuario;
+    String imagen;
     Long id;
 
     private EditText txtComboFen;
@@ -106,7 +113,13 @@ public class DetalleObsFragment extends Fragment {
         altitud = bundle.getString("ALTITUD");
         fecha = bundle.getString("FECHA");
         id = bundle.getLong("ID");
+        imagen = bundle.getString("IMAGEN");
         usuario = bundle.getString("USUARIO");
+
+        if (!(imagen.isEmpty())) {
+            imageView = (ImageView) mView.findViewById(R.id.imagenDetalle);
+            imageView.setImageBitmap(convertBase64ToImage(imagen));
+        }
 
 
         txtCodigo.setText(codigo);
@@ -119,6 +132,7 @@ public class DetalleObsFragment extends Fragment {
         txtLatitud.setText(latitud);
         txtAltitud.setText(altitud);
         txtFecha.setText(fecha);
+
 
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,21 +157,6 @@ public class DetalleObsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-    }
-
-    public void actualizarBundle() {
-
-        codigo = bundle.getString(NuevaObsFragment.codigo);
-        descripcion = bundle.getString(NuevaObsFragment.descripcion);
-        fenomeno = bundle.getString(NuevaObsFragment.fenomeno);
-        departamento = bundle.getString(NuevaObsFragment.depto);
-        localidad = bundle.getString(NuevaObsFragment.localidad);
-        zona = bundle.getString(NuevaObsFragment.zona);
-        longitud = bundle.getString(NuevaObsFragment.longitud);
-        latitud = bundle.getString(NuevaObsFragment.latitud);
-        altitud = bundle.getString(NuevaObsFragment.altitud);
-        fecha = bundle.getString(NuevaObsFragment.fecha);
 
     }
 
@@ -231,6 +230,13 @@ public class DetalleObsFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, modificarFragment, "Encuentro el fragment");
         fragmentTransaction.addToBackStack(null).commit();
+    }
+
+    private Bitmap convertBase64ToImage(String imagenBase64) {
+
+        byte[] imagenByte = Base64.decode(imagenBase64, Base64.DEFAULT);
+        Bitmap imagen = BitmapFactory.decodeByteArray(imagenByte, 0, imagenByte.length);
+        return imagen;
     }
 
 

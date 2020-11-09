@@ -1,15 +1,25 @@
 package com.example.pf_android.Fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +46,8 @@ import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
 import com.example.pf_android.remote.ApiUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -61,6 +74,8 @@ public class ModificarFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Button btnConfirmar;
     private Button btnCancelar;
+    private Button btnImagen;
+    private ImageView imagenModif;
 
     String codigo;
     String descripcion;
@@ -73,7 +88,13 @@ public class ModificarFragment extends Fragment {
     String altitud;
     String fecha;
     String usuario;
+    String imagenValue;
+    String imagen;
+    Bitmap bitmap;
     Long id;
+
+    private static final int IMAGE_PICK_CODE = 1000;
+    private static final int PERMISSION_CODE = 1001;
 
     Bundle bundle = new Bundle();
     View mView = null;
@@ -112,6 +133,8 @@ public class ModificarFragment extends Fragment {
         txtLatitud = (EditText) mView.findViewById(R.id.txtLatitud);
         txtAltitud = (EditText) mView.findViewById(R.id.txtAltitud);
         txtLongitud = (EditText) mView.findViewById(R.id.txtLongitud);
+        btnImagen = (Button) mView.findViewById(R.id.btnImagen);
+        imagenModif = (ImageView) mView.findViewById(R.id.imagenModif);
         btnConfirmar = (Button) mView.findViewById(R.id.btnModify);
         btnCancelar = (Button) mView.findViewById(R.id.btnCancel);
 
@@ -192,6 +215,7 @@ public class ModificarFragment extends Fragment {
         latitud = bundle.getString("LATITUD");
         altitud = bundle.getString("ALTITUD");
         fecha = bundle.getString("FECHA");
+        imagen = bundle.getString("IMAGEN");
         id = bundle.getLong("ID");
         usuario = bundle.getString("USUARIO");
 
@@ -202,6 +226,10 @@ public class ModificarFragment extends Fragment {
         txtLatitud.setText(latitud);
         txtAltitud.setText(altitud);
         fechaCreacion.setText(fecha);
+        if (!(imagen.isEmpty())) {
+            imagenModif.setImageBitmap(convertBase64ToImage(imagen));
+        }
+
 
 
         btnConfirmar.setOnClickListener(new View.OnClickListener() {
@@ -216,9 +244,12 @@ public class ModificarFragment extends Fragment {
                 longitud = txtLongitud.getText().toString();
                 altitud = txtAltitud.getText().toString();
                 fecha = fechaCreacion.getText().toString();
+                if (!imagenModif.getDrawable().toString().isEmpty()) {
+                    imagenValue = convertImageToBase64();
+                }
 
                 Observacion obs = new Observacion(Float.valueOf(altitud), codigo, descripcion, "PENDIENTE", fecha, fenomeno, Float.valueOf(latitud), localidad,
-                        Float.valueOf(longitud), usuario, null);
+                        Float.valueOf(longitud), usuario, imagenValue);
 
                 if (!awesomeValidation.validate()) {
                     Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
@@ -233,6 +264,7 @@ public class ModificarFragment extends Fragment {
                     bundle.putString("LONGITUD", longitud);
                     bundle.putString("ALTITUD", altitud);
                     bundle.putString("FECHA", fecha);
+                    bundle.putString("IMAGEN", imagenValue);
 
                     modificarObservacion(obs, id);
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
@@ -298,6 +330,28 @@ public class ModificarFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        btnImagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Check runtime permission
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_DENIED) {
+                        //No esta el permiso, hay que pedirlo
+                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        //Muestro el pop up
+                        requestPermissions(permissions, PERMISSION_CODE);
+                    } else {
+                        //Ya tiene el permiso
+                        pickImageFromGallery();
+                    }
+                } else {
+                    //La versión del SDK android es menor a 23
+                    pickImageFromGallery();
+                }
             }
         });
 
@@ -409,5 +463,52 @@ public class ModificarFragment extends Fragment {
         }
 
         return 0;
+    }
+
+    private void pickImageFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, IMAGE_PICK_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    pickImageFromGallery();
+                } else {
+                    Toast.makeText(getActivity(), "Permiso denegado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == -1 && requestCode == IMAGE_PICK_CODE){
+            imagenModif.setImageURI(data.getData());
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String convertImageToBase64() {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return imageString;
+    }
+
+    private Bitmap convertBase64ToImage(String imagenBase64) {
+
+        byte[] imagenByte = Base64.decode(imagenBase64, Base64.DEFAULT);
+        Bitmap imagen = BitmapFactory.decodeByteArray(imagenByte, 0, imagenByte.length);
+        return imagen;
     }
 }

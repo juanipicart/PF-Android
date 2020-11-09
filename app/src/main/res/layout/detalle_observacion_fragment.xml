@@ -281,11 +281,21 @@
                     android:gravity="center_vertical"
                     android:textSize="18dp" />
 
+                <ImageView
+                    android:id="@+id/imagenDetalle"
+                    android:layout_width="264dp"
+                    android:layout_height="178dp"
+                    android:layout_below="@id/txtFecha"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="-115dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_baseline_image_search_24" />
+
                 <Button
                     android:id="@+id/btnModify"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_below="@id/txtFecha"
+                    android:layout_below="@+id/imagenDetalle"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="14dp"
