@@ -35,8 +35,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationHolder;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.basgeekball.awesomevalidation.utility.custom.CustomValidation;
 import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
 import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.Models.Departamento;
@@ -48,8 +50,12 @@ import com.example.pf_android.remote.ApiUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -112,6 +118,15 @@ public class ModificarFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_modificar,container,false);
+        this.mView=view;
+
+        return view;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,10 +134,9 @@ public class ModificarFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_modificar,container,false);
-        this.mView=view;
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
 
         fechaCreacion = (TextView) mView.findViewById(R.id.txtFecha);
         txtCodigo = (TextView) mView.findViewById(R.id.txtCodigo);
@@ -149,10 +163,10 @@ public class ModificarFragment extends Fragment {
         awesomeValidation.addValidation(getActivity(), R.id.txtAltitud, new SimpleCustomValidation() {
             @Override
             public boolean compare(String altitud) {
+                Long max = Long.valueOf(514);
                 if (!altitud.isEmpty()) {
-                    if (Integer.parseInt(altitud) > 514) {
-                        return false;
-                    } else if (Integer.parseInt(altitud) < 0) {
+                    Double a = Double.parseDouble(altitud);
+                    if (a > max) {
                         return false;
                     } else {
                         return true;
@@ -166,9 +180,10 @@ public class ModificarFragment extends Fragment {
             @Override
             public boolean compare(String longitud) {
                 if (!longitud.isEmpty()) {
-                    if (Long.parseLong(longitud) < -58.43) {
+                    Double l = Double.parseDouble(longitud);
+                    if (l < -58.43) {
                         return false;
-                    } else if (Long.parseLong(longitud) > -53.18) {
+                    } else if (l > -53.18) {
                         return false;
                     } else {
                         return true;
@@ -182,9 +197,10 @@ public class ModificarFragment extends Fragment {
             @Override
             public boolean compare(String latitud) {
                 if (!latitud.isEmpty()) {
-                    if (Long.parseLong(latitud) < -34.98) {
+                    Double l = Double.parseDouble(latitud);
+                    if (l < -34.98) {
                         return false;
-                    } else if (Long.parseLong(latitud) > -30.08) {
+                    } else if (l > -30.08) {
                         return false;
                     } else {
                         return true;
@@ -193,6 +209,27 @@ public class ModificarFragment extends Fragment {
                 }
             }
         }, R.string.error_latitud);
+        awesomeValidation.addValidation(getActivity(), R.id.txtFecha, new SimpleCustomValidation() {
+            @Override
+            public boolean compare(String s) {
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date fecha = null;
+                if (!s.isEmpty()) {
+                    try {
+                        fecha = format.parse(s);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (fecha.after(Calendar.getInstance().getTime())) {
+                        Toast.makeText(getActivity(), "La fecha no puede ser futura", Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else {
+                        return true;
+                    } } else {
+                    return true;
+                }
+            }
+        }, R.string.error_fecha);
         awesomeValidation.addValidation(getActivity(), R.id.txtdescripcion,
                 RegexTemplate.NOT_EMPTY, R.string.invalidDesc);
         awesomeValidation.addValidation(getActivity(), R.id.txtlatitud,
@@ -226,7 +263,7 @@ public class ModificarFragment extends Fragment {
         txtLatitud.setText(latitud);
         txtAltitud.setText(altitud);
         fechaCreacion.setText(fecha);
-        if (!(imagen.isEmpty())) {
+        if (!(imagen == null)) {
             imagenModif.setImageBitmap(convertBase64ToImage(imagen));
         }
 
@@ -244,16 +281,15 @@ public class ModificarFragment extends Fragment {
                 longitud = txtLongitud.getText().toString();
                 altitud = txtAltitud.getText().toString();
                 fecha = fechaCreacion.getText().toString();
-                if (!imagenModif.getDrawable().toString().isEmpty()) {
+                if (!(bitmap == null)) {
                     imagenValue = convertImageToBase64();
                 }
 
                 Observacion obs = new Observacion(Float.valueOf(altitud), codigo, descripcion, "PENDIENTE", fecha, fenomeno, Float.valueOf(latitud), localidad,
                         Float.valueOf(longitud), usuario, imagenValue);
 
-                if (!awesomeValidation.validate()) {
-                    Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
-                } else {
+                if (awesomeValidation.validate()) {
+
                     Toast.makeText(getActivity(), "Modificación de observación exitosa!", Toast.LENGTH_SHORT).show();
                     bundle.putString("CODIGO", codigo);
                     bundle.putString("DESCRIPCION", descripcion);
@@ -355,7 +391,7 @@ public class ModificarFragment extends Fragment {
             }
         });
 
-        return view;
+
     }
 
     private void getFenomenos() {

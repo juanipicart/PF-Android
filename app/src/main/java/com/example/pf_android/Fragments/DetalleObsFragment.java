@@ -116,7 +116,7 @@ public class DetalleObsFragment extends Fragment {
         imagen = bundle.getString("IMAGEN");
         usuario = bundle.getString("USUARIO");
 
-        if (!(imagen.isEmpty())) {
+        if (!(imagen == null)) {
             imageView = (ImageView) mView.findViewById(R.id.imagenDetalle);
             imageView.setImageBitmap(convertBase64ToImage(imagen));
         }

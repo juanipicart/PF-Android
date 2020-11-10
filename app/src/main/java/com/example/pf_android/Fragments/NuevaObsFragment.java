@@ -65,8 +65,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -199,10 +203,10 @@ public class NuevaObsFragment extends Fragment {
         awesomeValidation.addValidation(getActivity(), R.id.txtaltitud, new SimpleCustomValidation() {
             @Override
             public boolean compare(String altitud) {
+                Long max = Long.valueOf(514);
                 if (!altitud.isEmpty()) {
-                    if (Integer.parseInt(altitud) > 514) {
-                        return false;
-                    } else if (Integer.parseInt(altitud) < 0) {
+                    Double a = Double.parseDouble(altitud);
+                    if (a > max) {
                         return false;
                     } else {
                         return true;
@@ -216,9 +220,10 @@ public class NuevaObsFragment extends Fragment {
             @Override
             public boolean compare(String longitud) {
                 if (!longitud.isEmpty()) {
-                    if (Long.parseLong(longitud) < -58.43) {
+                    Double l = Double.parseDouble(longitud);
+                    if (l < -58.43) {
                         return false;
-                    } else if (Long.parseLong(longitud) > -53.18) {
+                    } else if (l > -53.18) {
                         return false;
                     } else {
                         return true;
@@ -232,9 +237,10 @@ public class NuevaObsFragment extends Fragment {
             @Override
             public boolean compare(String latitud) {
                 if (!latitud.isEmpty()) {
-                if (Long.parseLong(latitud) < -34.98) {
+                    Double l = Double.parseDouble(latitud);
+                if (l < -34.98) {
                     return false;
-                } else if (Long.parseLong(latitud) > -30.08) {
+                } else if (l > -30.08) {
                     return false;
                 } else {
                     return true;
@@ -243,6 +249,27 @@ public class NuevaObsFragment extends Fragment {
                 }
             }
         }, R.string.error_latitud);
+        awesomeValidation.addValidation(getActivity(), R.id.fechaCreacion, new SimpleCustomValidation() {
+            @Override
+            public boolean compare(String s) {
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date fecha = null;
+                if (!s.isEmpty()) {
+                    try {
+                        fecha = format.parse(s);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (fecha.after(Calendar.getInstance().getTime())) {
+                        Toast.makeText(getActivity(), "La fecha no puede ser futura", Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else {
+                        return true;
+                    } } else {
+                        return true;
+                    }
+                }
+        }, R.string.error_fecha);
         awesomeValidation.addValidation(getActivity(), R.id.txtdescripcion,
                 RegexTemplate.NOT_EMPTY, R.string.invalidDesc);
         awesomeValidation.addValidation(getActivity(), R.id.txtlatitud,
@@ -259,25 +286,25 @@ public class NuevaObsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                fenomenoValue = comboFenomeno.getSelectedItem().toString();
-                deptoValue = comboDeptos.getSelectedItem().toString();
-                localidadValue = comboLocalidad.getSelectedItem().toString();
+                if (!(comboFenomeno.getSelectedItem() == null || comboDeptos.getSelectedItem() == null || comboLocalidad.getSelectedItem() == null)) {
+                    fenomenoValue = comboFenomeno.getSelectedItem().toString();
+                    deptoValue = comboDeptos.getSelectedItem().toString();
+                    localidadValue = comboLocalidad.getSelectedItem().toString();
+                }
                 codigoValue = txtCodigo.getText().toString();
                 descripcionValue = txtDescripcion.getText().toString();
                 latValue = txtLatitud.getText().toString();
                 longValue = txtLongitud.getText().toString();
                 altValue = txtAltitud.getText().toString();
                 fechaValue = fechaCreacion.getText().toString();
-                if (!imagen.getDrawable().toString().isEmpty()) {
+                if (!(bitmap == null)) {
                     imagenValue = convertImageToBase64();
                 }
 
                 selectedFenomeno = (TextView) comboFenomeno.getSelectedView();
                 selectedLocalidad = (TextView) comboLocalidad.getSelectedView();
 
-                if (!awesomeValidation.validate()) {
-                    Toast.makeText(getActivity(), "Datos inválidos", Toast.LENGTH_LONG).show();
-                } else {
+                if (awesomeValidation.validate()) {
 
                     bundle.putString(codigo, codigoValue);
                     bundle.putString(descripcion, descripcionValue);
@@ -411,6 +438,8 @@ public class NuevaObsFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<Fenomeno>> call, Throwable t) {
                 Log.w("MyTag", "requestFailed", t);
+                btnAceptar.setEnabled(false);
+                Toast.makeText(getActivity(), "Ocurrió un error en el servidor.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -435,7 +464,7 @@ public class NuevaObsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Localidad>> call, Throwable t) {
-
+                btnAceptar.setEnabled(false);
             }
         });
     }
@@ -531,7 +560,7 @@ public class NuevaObsFragment extends Fragment {
     private String convertImageToBase64() {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         byte[] imageBytes = baos.toByteArray();
         String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return imageString;

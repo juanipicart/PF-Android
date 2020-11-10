@@ -140,36 +140,78 @@
                     android:gravity="center_horizontal"
                     android:spinnerMode="dialog" />
 
+                <TextView
+                    android:id="@+id/lblLongitud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/lblLocalidad"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/lblLongitud"
+                    android:textSize="18sp" />
+
                 <EditText
                     android:id="@+id/txtlongitud"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/comboLocalidad"
-                    android:layout_marginLeft="10dp"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_marginLeft="-40dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
                     android:hint="@string/longitudHint"
                     android:inputType="numberDecimal|numberSigned" />
 
+                <TextView
+                    android:id="@+id/lblLatitud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/lblLongitud"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/lblLatitud"
+                    android:textSize="18sp" />
+
                 <EditText
                     android:id="@+id/txtlatitud"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtlongitud"
-                    android:layout_marginLeft="10dp"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_marginLeft="-40dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"
                     android:hint="@string/latitudHint"
                     android:inputType="numberDecimal|numberSigned" />
 
+                <TextView
+                    android:id="@+id/lblAltitud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/lblLatitud"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/lblAltitud"
+                    android:textSize="18sp" />
+
                 <EditText
                     android:id="@+id/txtaltitud"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtlatitud"
-                    android:layout_marginLeft="10dp"
+                    android:layout_alignLeft="@id/strut"
+                    android:layout_marginLeft="-40dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="7dp"

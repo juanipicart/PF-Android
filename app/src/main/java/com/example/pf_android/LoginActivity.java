@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
                 Log.e("fail", "Unable to submit post to API.");
-                Toast.makeText(LoginActivity.this, "Fallo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "No es posible ingresar en este momento.", Toast.LENGTH_SHORT).show();
             }
         });
     }

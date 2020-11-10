@@ -50,4 +50,6 @@
     <string name="error_longitud">La longitud ingresada no pertenece al territorio uruguayo.</string>
     <string name="error_latitud">La latitud ingresada no pertenece al territorio uruguayo.</string>
     <string name="invalidFecha">Ingresa una fecha</string>
+    <string name="error_fecha">La fecha de la observación no puede ser futura</string>
+    <string name="Longitud">Longitud</string>
 </resources>
