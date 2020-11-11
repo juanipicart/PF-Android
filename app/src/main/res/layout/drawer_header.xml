@@ -10,7 +10,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="145dp"
-        android:background="#689623"
+        android:background="@drawable/grdnt"
         android:padding="20dp"
         android:textSize="30sp"></TextView>
 
