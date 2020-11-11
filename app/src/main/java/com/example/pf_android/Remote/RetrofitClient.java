@@ -1,4 +1,4 @@
-package com.example.pf_android.remote;
+package com.example.pf_android.Remote;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

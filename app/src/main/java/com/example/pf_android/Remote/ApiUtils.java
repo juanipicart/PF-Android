@@ -1,15 +1,12 @@
-package com.example.pf_android.remote;
-
-import android.content.Intent;
+package com.example.pf_android.Remote;
 
 import com.example.pf_android.Apis.APIService;
-import com.example.pf_android.MainActivity;
 
 public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://192.168.1.21:8090/TareaPDT_JSF/faces/rest/";
+    public static final String BASE_URL = "http://192.168.1.45:8092/TareaPDT_JSF/faces/rest/";
 
     public static APIService getAPIService() {
 

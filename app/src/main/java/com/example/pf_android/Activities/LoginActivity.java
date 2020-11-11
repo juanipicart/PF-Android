@@ -1,7 +1,6 @@
-package com.example.pf_android;
+package com.example.pf_android.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.pf_android.Apis.APIService;
-import com.example.pf_android.Fragments.DetalleObsFragment;
-import com.example.pf_android.Fragments.MainFragment;
-import com.example.pf_android.Fragments.NuevaObsFragment;
 import com.example.pf_android.Models.Login;
-import com.example.pf_android.remote.ApiUtils;
+import com.example.pf_android.R;
+import com.example.pf_android.Remote.ApiUtils;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

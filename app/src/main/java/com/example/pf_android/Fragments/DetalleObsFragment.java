@@ -3,7 +3,6 @@ package com.example.pf_android.Fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,8 +11,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,13 +26,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pf_android.Apis.APIService;
-import com.example.pf_android.MainActivity;
 import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
-import com.example.pf_android.remote.ApiUtils;
+import com.example.pf_android.Remote.ApiUtils;
 import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;

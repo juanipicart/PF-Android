@@ -1,43 +1,28 @@
 package com.example.pf_android.Fragments;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.math.BigDecimal;
 
 import com.example.pf_android.Apis.APIService;
 import com.example.pf_android.Entities.ObservacionAdapter;
 import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
-import com.example.pf_android.remote.ApiUtils;
+import com.example.pf_android.Remote.ApiUtils;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import retrofit2.Call;
 import retrofit2.Callback;

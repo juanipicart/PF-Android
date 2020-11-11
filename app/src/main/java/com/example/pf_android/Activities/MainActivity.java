@@ -1,4 +1,4 @@
-package com.example.pf_android;
+package com.example.pf_android.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +20,8 @@ import com.example.pf_android.Fragments.DetalleObsFragment;
 import com.example.pf_android.Fragments.ListarObservaciones;
 import com.example.pf_android.Fragments.MainFragment;
 import com.example.pf_android.Fragments.NuevaObsFragment;
+import com.example.pf_android.R;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NuevaObsFragment.NuevaObsListener {
 

@@ -1,23 +1,22 @@
 package com.example.pf_android.Fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -47,24 +46,15 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
 import com.example.pf_android.Apis.APIService;
-import com.example.pf_android.LoginActivity;
-import com.example.pf_android.MainActivity;
 import com.example.pf_android.Models.Departamento;
 import com.example.pf_android.Models.Fenomeno;
 import com.example.pf_android.Models.Localidad;
 import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
-import com.example.pf_android.remote.ApiUtils;
-import com.google.common.collect.Range;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
+import com.example.pf_android.Remote.ApiUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,8 +66,6 @@ import java.util.HashMap;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NuevaObsFragment extends Fragment {
 
@@ -141,9 +129,13 @@ public class NuevaObsFragment extends Fragment {
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
+    private static final int LOCATION_CODE = 1002;
 
     private LocationManager locManager;
     private Location loc;
+    ProgressDialog nDialog;
+
+    Boolean location = true;
 
     @Nullable
     @Override
@@ -183,18 +175,6 @@ public class NuevaObsFragment extends Fragment {
         getFenomenos();
         getDepartamentos();
         getLocalidades("ARTIGAS");
-
-        ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-        if (!(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED))
-        {
-            locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            txtLongitud.setText(String.valueOf(loc.getLongitude()));
-            txtAltitud.setText(String.valueOf(loc.getAltitude()));
-            txtLatitud.setText(String.valueOf(loc.getLatitude()));
-        }
-
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
@@ -395,7 +375,32 @@ public class NuevaObsFragment extends Fragment {
             }
         });
 
+        txtLatitud.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (txtLatitud.getText().toString().isEmpty() && location) {
+                    mostrarDialogoUbicación();
+                }
+            }
+        });
 
+        txtLongitud.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (txtLongitud.getText().toString().isEmpty() && location) {
+                    mostrarDialogoUbicación();
+                }
+            }
+        });
+
+        txtAltitud.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (txtAltitud.getText().toString().isEmpty() && location) {
+                    mostrarDialogoUbicación();
+                }
+            }
+        });
     }
 
     @Override
@@ -542,6 +547,14 @@ public class NuevaObsFragment extends Fragment {
                     Toast.makeText(getActivity(), "Permiso denegado", Toast.LENGTH_SHORT).show();
                 }
             }
+            case LOCATION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLocation();
+                } else {
+                    Toast.makeText(getActivity(), "Permiso denegado", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         }
     }
 
@@ -564,5 +577,64 @@ public class NuevaObsFragment extends Fragment {
         byte[] imageBytes = baos.toByteArray();
         String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return imageString;
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        txtLongitud.setText(String.valueOf(loc.getLongitude()));
+        txtAltitud.setText(String.valueOf(loc.getAltitude()));
+        txtLatitud.setText(String.valueOf(loc.getLatitude()));
+        location = true;
+    }
+
+    private void mostrarDialogoUbicación (){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Obtener ubicación");
+        builder.setMessage("Desea obtener su ubicación e ingresarla al formulario?")
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        nDialog = new ProgressDialog(getActivity());
+                        nDialog.setMessage("Cargando...");
+                        nDialog.setIndeterminate(false);
+                        nDialog.setCancelable(true);
+                        nDialog.show();
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                nDialog.dismiss();
+                                //Check runtime permission
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                                            == PackageManager.PERMISSION_DENIED) {
+                                        //No esta el permiso, hay que pedirlo
+                                        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+                                        //Muestro el pop up
+                                        requestPermissions(permissions, LOCATION_CODE);
+                                    } else {
+                                        //Ya tiene el permiso
+                                        getLocation();
+                                    }
+                                } else {
+                                    //La versión del SDK android es menor a 23
+                                    getLocation();
+                                }
+                            }
+                        }, 100);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        location = false;
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 }
