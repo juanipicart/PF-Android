@@ -523,7 +523,7 @@ public class NuevaObsFragment extends Fragment {
                     txtCodigo.setError("El código ya existe en el sistema. Debe ingresar otro.");
                     Toast.makeText(getActivity(), "El código ya existe en el sistema. Debe ingresar otro.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Se perdió la conexión con el servidor.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Ocurrió un error al realizar el alta.", Toast.LENGTH_SHORT).show();
                 }
             }
 
