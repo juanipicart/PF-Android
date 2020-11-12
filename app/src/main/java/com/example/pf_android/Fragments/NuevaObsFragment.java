@@ -442,9 +442,10 @@ public class NuevaObsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Fenomeno>> call, Throwable t) {
-                Log.w("MyTag", "requestFailed", t);
+                Log.e("error", "post to API failed.");
+                Toast.makeText(getActivity(), "Ocurrió un error de conexión.", Toast.LENGTH_SHORT).show();
+                btnAceptar.setFocusable(true);
                 btnAceptar.setEnabled(false);
-                Toast.makeText(getActivity(), "Ocurrió un error en el servidor.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -469,6 +470,9 @@ public class NuevaObsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Localidad>> call, Throwable t) {
+                Log.e("error", "post to API failed.");
+                Toast.makeText(getActivity(), "Ocurrió un error de conexión.", Toast.LENGTH_SHORT).show();
+                btnAceptar.setFocusable(true);
                 btnAceptar.setEnabled(false);
             }
         });
@@ -492,7 +496,10 @@ public class NuevaObsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Departamento>> call, Throwable t) {
-
+                Log.e("error", "post to API failed.");
+                Toast.makeText(getActivity(), "Ocurrió un error de conexión.", Toast.LENGTH_SHORT).show();
+                btnAceptar.setFocusable(true);
+                btnAceptar.setEnabled(false);
             }
         });
     }
@@ -522,7 +529,8 @@ public class NuevaObsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Observacion> call, Throwable t) {
-                Log.i("error", "post to API failed.");
+                Log.e("error", "post to API failed.");
+                Toast.makeText(getActivity(), "Ocurrió un error al realizar el alta.", Toast.LENGTH_SHORT).show();
             }
         });
     }
