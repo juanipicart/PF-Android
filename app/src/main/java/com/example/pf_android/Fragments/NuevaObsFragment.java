@@ -305,7 +305,6 @@ public class NuevaObsFragment extends Fragment {
                     createObservacion(obs);
 
 
-
                 }
             }
         });
@@ -518,7 +517,8 @@ public class NuevaObsFragment extends Fragment {
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
-                    fragmentTransaction.addToBackStack(null).commit();
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.remove(NuevaObsFragment.this).commit();
                 } else if (response.code() == 400) {
                     txtCodigo.setError("El código ya existe en el sistema. Debe ingresar otro.");
                     Toast.makeText(getActivity(), "El código ya existe en el sistema. Debe ingresar otro.", Toast.LENGTH_SHORT).show();

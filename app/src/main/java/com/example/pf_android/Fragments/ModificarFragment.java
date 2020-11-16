@@ -312,6 +312,7 @@ public class ModificarFragment extends Fragment {
                     bundle.putString("ALTITUD", altitud);
                     bundle.putString("FECHA", fecha);
                     bundle.putString("IMAGEN", imagenValue);
+                    bundle.putString("USUARIO", usuario);
 
                     modificarObservacion(obs, id);
                     DetalleObsFragment detalleObsFragment = new DetalleObsFragment();
@@ -319,7 +320,8 @@ public class ModificarFragment extends Fragment {
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.container_fragment, detalleObsFragment, "Encuentro el fragment");
-                    fragmentTransaction.addToBackStack(null).commit();
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.remove(ModificarFragment.this).commit();
 
 
                 }
@@ -458,8 +460,8 @@ public class ModificarFragment extends Fragment {
             public void onFailure(Call<ArrayList<Fenomeno>> call, Throwable t) {
                 Log.e("error", "post to API failed.");
                 Toast.makeText(getActivity(), "Ocurrió un error de conexión.", Toast.LENGTH_SHORT).show();
-                btnAceptar.setFocusable(true);
-                btnAceptar.setEnabled(false);
+                btnConfirmar.setFocusable(true);
+                btnConfirmar.setEnabled(false);
             }
         });
     }

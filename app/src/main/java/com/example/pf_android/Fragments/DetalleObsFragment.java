@@ -223,7 +223,9 @@ public class DetalleObsFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, modificarFragment, "Encuentro el fragment");
+        fragmentTransaction.remove(this);
         fragmentTransaction.addToBackStack(null).commit();
+
     }
 
     private Bitmap convertBase64ToImage(String imagenBase64) {
