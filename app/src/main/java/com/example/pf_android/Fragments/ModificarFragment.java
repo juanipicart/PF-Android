@@ -241,7 +241,7 @@ public class ModificarFragment extends Fragment {
                 }
             }
         }, R.string.error_fecha);
-        awesomeValidation.addValidation(getActivity(), R.id.txtdescripcion,
+        awesomeValidation.addValidation(getActivity(), R.id.txtDescripcion,
                 RegexTemplate.NOT_EMPTY, R.string.invalidDesc);
         awesomeValidation.addValidation(getActivity(), R.id.txtlatitud,
                 RegexTemplate.NOT_EMPTY, R.string.invalidLat);
