@@ -593,7 +593,7 @@ public class ModificarFragment extends Fragment {
     @SuppressLint("MissingPermission")
     private void getLocation() {
         locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        loc = locManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
         txtLongitud.setText(String.valueOf(loc.getLongitude()));
         txtAltitud.setText(String.valueOf(loc.getAltitude()));
         txtLatitud.setText(String.valueOf(loc.getLatitude()));
