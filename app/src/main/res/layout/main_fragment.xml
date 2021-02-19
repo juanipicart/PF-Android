@@ -13,7 +13,7 @@
         android:layout_marginTop="75dp"
         android:layout_marginBottom="25dp"
         android:shadowColor="#000000"
-        android:text="Bienvenido a nuestra APP"
+        android:text="@string/txtBienvenida"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingTop="50dp"
-        android:text="Nuestra Aplicacion tiene como objetivo colaborar con los ciudadanos y el medio ambiente, permitiendo registrar observaciones en tiempo real. Con tu ayuda podemos hacer del mundo un lugar mas verde"
+        android:text="@string/txtMain"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 

@@ -44,7 +44,7 @@
     <string name="invalidZona">Seleccione una zona</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">Grean Place App</string>
+    <string name="title_activity_main">Green Place App</string>
     <string name="modifObs">Modificar Observación</string>
     <string name="error_altitud">Valor inválido. El punto máximo de Uruguay es 523.66 metros.</string>
     <string name="error_longitud">La longitud ingresada no pertenece al territorio uruguayo.</string>
@@ -52,4 +52,6 @@
     <string name="invalidFecha">Ingresa una fecha</string>
     <string name="error_fecha">La fecha de la observación no puede ser futura</string>
     <string name="Longitud">Longitud</string>
+    <string name="txtMain">Nuestra aplicación tiene como objetivo colaborar con los ciudadanos y el medio ambiente, permitiendo registrar observaciones en tiempo real. Con tu ayuda podemos hacer del mundo un lugar mas verde.</string>
+    <string name="txtBienvenida">Bienvenido a nuestra app</string>
 </resources>
