@@ -12,7 +12,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +55,10 @@ import com.example.pf_android.Models.Localidad;
 import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
 import com.example.pf_android.Remote.ApiUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -62,6 +69,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -133,6 +142,7 @@ public class NuevaObsFragment extends Fragment {
 
     private LocationManager locManager;
     private Location loc;
+    FusedLocationProviderClient fused;
     ProgressDialog nDialog;
 
     Boolean location = true;
@@ -589,12 +599,20 @@ public class NuevaObsFragment extends Fragment {
 
     @SuppressLint("MissingPermission")
     private void getLocation() {
-        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        loc = locManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        txtLongitud.setText(String.valueOf(loc.getLongitude()));
-        txtAltitud.setText(String.valueOf(loc.getAltitude()));
-        txtLatitud.setText(String.valueOf(loc.getLatitude()));
-        location = true;
+        fused = LocationServices.getFusedLocationProviderClient(getContext());
+        fused.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                loc = task.getResult();
+                if (loc != null) {
+                    txtLongitud.setText(String.valueOf(loc.getLongitude()));
+                    txtAltitud.setText(String.valueOf(loc.getAltitude()));
+                    txtLatitud.setText(String.valueOf(loc.getLatitude()));
+                    location = true;
+                }
+            }
+        });
+
     }
 
     private void mostrarDialogoUbicación (){

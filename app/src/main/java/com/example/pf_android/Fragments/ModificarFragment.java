@@ -53,6 +53,10 @@ import com.example.pf_android.Models.Localidad;
 import com.example.pf_android.Models.Observacion;
 import com.example.pf_android.R;
 import com.example.pf_android.Remote.ApiUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -122,6 +126,7 @@ public class ModificarFragment extends Fragment {
 
     private LocationManager locManager;
     private Location loc;
+    FusedLocationProviderClient fused;
     ProgressDialog nDialog;
     Boolean location = true;
 
@@ -294,6 +299,8 @@ public class ModificarFragment extends Fragment {
                 fecha = fechaCreacion.getText().toString();
                 if (!(bitmap == null)) {
                     imagenValue = convertImageToBase64();
+                } else {
+                    imagenValue = imagen;
                 }
 
                 Observacion obs = new Observacion(Float.valueOf(altitud), codigo, descripcion, "PENDIENTE", fecha, fenomeno, Float.valueOf(latitud), localidad,
@@ -592,12 +599,19 @@ public class ModificarFragment extends Fragment {
 
     @SuppressLint("MissingPermission")
     private void getLocation() {
-        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        loc = locManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        txtLongitud.setText(String.valueOf(loc.getLongitude()));
-        txtAltitud.setText(String.valueOf(loc.getAltitude()));
-        txtLatitud.setText(String.valueOf(loc.getLatitude()));
-        location = true;
+        fused = LocationServices.getFusedLocationProviderClient(getContext());
+        fused.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                loc = task.getResult();
+                if (loc != null) {
+                    txtLongitud.setText(String.valueOf(loc.getLongitude()));
+                    txtAltitud.setText(String.valueOf(loc.getAltitude()));
+                    txtLatitud.setText(String.valueOf(loc.getLatitude()));
+                    location = true;
+                }
+            }
+        });
     }
 
     private void mostrarDialogoUbicación (){
